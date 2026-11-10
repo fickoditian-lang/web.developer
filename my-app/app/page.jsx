@@ -105,7 +105,7 @@ export default function Home() {
       <style jsx global>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; overflow-x: hidden; width: 100%; }
+        body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; overflow-x: hidden; width: 100%; max-width: 100vw; }
         a { color: inherit; text-decoration: none; }
 
         .container { max-width: 980px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 24px); width: 100%; }
@@ -151,7 +151,7 @@ export default function Home() {
         .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
         .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* FOTO PROFIL BULAT UTAMA */
+        /* FOTO PROFIL BULAT UTAMA (TANPA SHADOW) */
         .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
         .profile-circle-wrapper { width: clamp(180px, 35vw, 240px); height: clamp(180px, 35vw, 240px); border-radius: 50%; background: #121722; border: none; display: flex; align-items: center; justify-content: center; box-shadow: none; overflow: hidden; position: relative; }
 
@@ -200,7 +200,7 @@ export default function Home() {
         .scroll-top-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99; background: #ccff00; color: #080a0f; width: 38px; height: 38px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3); }
         .scroll-top-btn:hover { transform: translateY(-2px); }
 
-        /* FOOTER: PINGGIR KIRI (TEKS) & PINGGIR KANAN (INSTAGRAM) */
+        /* FOOTER */
         .footer { padding: 32px 0; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; width: 100%; }
         @media (max-width: 500px) {
           .footer { flex-direction: column; justify-content: center; text-align: center; }
@@ -211,7 +211,7 @@ export default function Home() {
         .social-icons a:hover { border-color: #ccff00; color: #ccff00; }
       `}</style>
 
-      {/* ANIMASI SPLASH SCREEN "HELLO WELCOME" DENGAN TOMBOL SKIP */}
+      {/* ANIMASI SPLASH SCREEN "HELLO WELCOME" */}
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -249,7 +249,6 @@ export default function Home() {
               </motion.span>
             </div>
 
-            {/* TOMBOL SKIP */}
             <button
               onClick={() => setLoading(false)}
               style={{
@@ -265,14 +264,6 @@ export default function Home() {
                 cursor: "pointer",
                 transition: "0.2s",
                 backdropFilter: "blur(10px)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#ccff00";
-                e.currentTarget.style.color = "#ccff00";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
-                e.currentTarget.style.color = "#ffffff";
               }}
             >
               Skip
@@ -495,7 +486,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* FOOTER: TEKS KIRI & INSTAGRAM KANAN */}
+        {/* FOOTER */}
         <footer className="footer">
           <span style={{ color: "#ffffff", opacity: 0.7, fontSize: "13px", fontWeight: "500", letterSpacing: "0.2px" }}>
             © 2026 Ficko Ditian. All rights reserved.
@@ -506,7 +497,7 @@ export default function Home() {
         </footer>
       </main>
 
-      {/* MODAL POPUP PREVIEW GAMBAR SAAT TOMBOL VIEW DIKLIK */}
+      {/* MODAL POPUP PREVIEW GAMBAR */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div

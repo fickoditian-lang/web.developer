@@ -1,3 +1,26 @@
+/* PENGAMAN UTAMA AGAR HP TIDAK MELEBAR / OVERFLOW */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #090a0d;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
 
 .navbar {
   position: fixed;
@@ -101,6 +124,40 @@
 .nav-menu-content a span {
   font-size: 14px;
   color: #4388ff;
+}
+
+/* TAMBAHAN KODE KHUSUS HERO & FOTO PROFIL AGAR RESPONSIF DI HP */
+.hero-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 120px;
+  gap: 20px;
+}
+
+.profile-avatar-box {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #4388ff;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.profile-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding-top: 100px;
+  }
 }
 
 @media (max-width: 550px) {

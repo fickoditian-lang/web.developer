@@ -151,9 +151,12 @@ export default function Home() {
         .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
         .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* FOTO PROFIL BULAT UTAMA (TANPA SHADOW) */
+        /* FOTO PROFIL BULAT UTAMA (FIX HP & TANPA SHADOW) */
         .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
-        .profile-circle-wrapper { width: clamp(180px, 35vw, 240px); height: clamp(180px, 35vw, 240px); border-radius: 50%; background: #121722; border: none; display: flex; align-items: center; justify-content: center; box-shadow: none; overflow: hidden; position: relative; }
+        .profile-circle-wrapper { width: 180px; height: 180px; min-width: 180px; min-height: 180px; border-radius: 50%; background: #121722; border: none; display: flex; align-items: center; justify-content: center; box-shadow: none; overflow: hidden; position: relative; }
+        @media (min-width: 640px) {
+          .profile-circle-wrapper { width: 220px; height: 220px; min-width: 220px; min-height: 220px; }
+        }
 
         /* SECTIONS RESPONSIVE */
         .section { padding: clamp(36px, 5vw, 56px) 0; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: left; }

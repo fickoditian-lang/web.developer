@@ -133,22 +133,23 @@ export default function Home() {
         .menu-dot { width: 6px; height: 6px; border-radius: 50%; background: #ccff00; opacity: 0; }
         .menu-item:hover .menu-dot { opacity: 1; }
 
-        /* HERO SECTION (PENUH & RAPI DI PC/LAPTOP & HP) */
+        /* HERO SECTION */
         .hero { min-height: 85vh; display: flex; align-items: center; padding-top: 90px; padding-bottom: 40px; }
         .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(30px, 5vw, 60px); align-items: center; width: 100%; }
         
         @media (max-width: 850px) { 
           .hero-grid { 
             grid-template-columns: 1fr; 
-            text-align: center; 
+            text-align: center; /* Di HP teks jadi rata tengah */
             display: flex; 
-            flex-direction: column-reverse; /* HP: Teks di bawah, Foto Profil di Atas */
-            gap: 28px; 
+            flex-direction: column; 
             justify-content: center;
             align-items: center;
           } 
           .hero { min-height: auto; padding-top: 100px; padding-bottom: 30px; }
           .hero-actions { justify-content: center; }
+          /* Foto profil disembunyikan khusus di HP */
+          .profile-avatar-container { display: none !important; }
         }
 
         .hero-title { font-size: clamp(36px, 5.5vw, 64px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; color: #ffffff; word-break: break-word; }
@@ -161,7 +162,7 @@ export default function Home() {
         .btn-sub { border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 12px 28px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
         .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* FOTO PROFIL UTAMA */
+        /* FOTO PROFIL UTAMA (Tampil di PC, Sembunyi di HP) */
         .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
         .profile-circle-wrapper { 
           width: clamp(180px, 32vw, 260px); 
@@ -345,7 +346,7 @@ export default function Home() {
         {/* HERO SECTION */}
         <section className="hero" id="home">
           <div className="hero-grid">
-            {/* Teks Nama Muncul dari Kanan */}
+            {/* Teks Nama Muncul dari Kanan & di HP Posisinya di Tengah */}
             <motion.div
               initial={{ opacity: 0, x: 70 }}
               whileInView={!loading ? { opacity: 1, x: 0 } : {}}
@@ -370,7 +371,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Foto Profil */}
+            {/* Foto Profil (Tampil di PC, Tersembunyi di HP) */}
             <motion.div
               className="profile-avatar-container"
               initial={{ opacity: 0, y: -250 }}

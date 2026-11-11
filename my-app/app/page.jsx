@@ -110,7 +110,7 @@ export default function Home() {
 
         .container { max-width: 980px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 24px); width: 100%; }
 
-        /* NAVBAR RESPONSIVE */
+        /* NAVBAR */
         .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(8, 10, 15, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(16px, 4vw, 32px); }
         
         .nav-profile-logo { width: 36px; height: 36px; border-radius: 50%; background: #121722; border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; overflow: hidden; flex-shrink: 0; }
@@ -125,7 +125,7 @@ export default function Home() {
         .menu-toggle-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; color: #ffffff; cursor: pointer; transition: 0.2s; z-index: 101; flex-shrink: 0; }
         .menu-toggle-btn:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* MENU OVERLAY */
+        /* MENU DRAWER */
         .menu-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(8, 10, 15, 0.98); backdrop-filter: blur(20px); display: flex; align-items: flex-start; justify-content: flex-start; padding: 12vh 0 0 clamp(20px, 5vw, 48px); }
         .menu-links { display: flex; flex-direction: column; gap: 16px; text-align: left; }
         .menu-item { font-size: clamp(18px, 4vw, 24px); font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
@@ -133,11 +133,11 @@ export default function Home() {
         .menu-dot { width: 5px; height: 5px; border-radius: 50%; background: #ccff00; opacity: 0; }
         .menu-item:hover .menu-dot { opacity: 1; }
 
-        /* HERO SECTION */
+        /* HERO SECTION (RESPONSIVE HP & PC) */
         .hero { min-height: 65vh; display: flex; flex-direction: column; justify-content: center; padding-top: 100px; padding-bottom: 24px; }
         .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(24px, 4vw, 40px); align-items: center; }
         @media (max-width: 800px) { 
-          .hero-grid { grid-template-columns: 1fr; text-align: left; display: flex; flex-direction: column-reverse; gap: 30px; } 
+          .hero-grid { grid-template-columns: 1fr; text-align: left; display: flex; flex-direction: column-reverse; gap: 24px; } 
           .hero { padding-top: 85px; padding-bottom: 20px; }
         }
 
@@ -150,11 +150,13 @@ export default function Home() {
         .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
         .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* FOTO PROFIL UTAMA (NO SHADOW, RESPONSIVE FULL) */
+        /* FOTO PROFIL UTAMA (DIJAMIN MUNCUL DI HP & PC) */
         .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
         .profile-circle-wrapper { 
-          width: clamp(140px, 36vw, 220px); 
-          height: clamp(140px, 36vw, 220px); 
+          width: clamp(160px, 38vw, 220px); 
+          height: clamp(160px, 38vw, 220px); 
+          min-width: 160px;
+          min-height: 160px;
           border-radius: 50%; 
           background: #121722; 
           border: 1px solid rgba(255, 255, 255, 0.1); 
@@ -216,7 +218,7 @@ export default function Home() {
         .social-icons a:hover { border-color: #ccff00; color: #ccff00; }
       `}</style>
 
-      {/* 1. ANIMASI SPLASH SCREEN "HELLO WELCOME" */}
+      {/* ANIMASI SPLASH SCREEN */}
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -300,7 +302,7 @@ export default function Home() {
         </header>
       )}
 
-      {/* 2. ANIMASI FULLSCREEN MENU DRAWER */}
+      {/* ANIMASI MENU DRAWER */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -331,10 +333,9 @@ export default function Home() {
       </AnimatePresence>
 
       <main className="container">
-        {/* HERO SECTION WITH ANIMATIONS */}
+        {/* HERO SECTION */}
         <section className="hero" id="home">
           <div className="hero-grid">
-            {/* 3. ANIMASI HERO TEXT */}
             <motion.div
               initial={{ opacity: 0, x: -70 }}
               whileInView={!loading ? { opacity: 1, x: 0 } : {}}
@@ -359,7 +360,6 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* 4. ANIMASI FOTO PROFIL (MEMBAL TURUN HALUS) */}
             <motion.div
               className="profile-avatar-container"
               initial={{ opacity: 0, y: -250 }}
@@ -374,7 +374,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. ANIMASI ABOUT ME */}
+        {/* ABOUT ME */}
         <section className="section" id="about">
           <motion.div
             initial={{ opacity: 0, x: -70 }}
@@ -389,7 +389,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* 6. ANIMASI PROJECTS */}
+        {/* PROJECTS */}
         <section className="section" id="projects">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -429,7 +429,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* 7. ANIMASI SERVICES */}
+        {/* SERVICES */}
         <section className="section" id="services">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -458,7 +458,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* 8. ANIMASI CONTACT */}
+        {/* CONTACT */}
         <section className="section" id="contact">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -504,7 +504,7 @@ export default function Home() {
         </footer>
       </main>
 
-      {/* 9. ANIMASI MODAL POPUP PREVIEW GAMBAR */}
+      {/* MODAL POPUP PREVIEW */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -569,7 +569,7 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* 10. ANIMASI SCROLL TOP BUTTON */}
+      {/* BACK TO TOP BUTTON */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.button

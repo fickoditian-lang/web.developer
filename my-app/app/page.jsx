@@ -133,11 +133,18 @@ export default function Home() {
         .menu-dot { width: 5px; height: 5px; border-radius: 50%; background: #ccff00; opacity: 0; }
         .menu-item:hover .menu-dot { opacity: 1; }
 
-        /* HERO SECTION (RESPONSIVE HP & PC) */
+        /* HERO SECTION RESPONSIVE (PC SAMPING, HP BERBARIS KE BAWAH) */
         .hero { min-height: 65vh; display: flex; flex-direction: column; justify-content: center; padding-top: 100px; padding-bottom: 24px; }
         .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(24px, 4vw, 40px); align-items: center; }
+        
         @media (max-width: 800px) { 
-          .hero-grid { grid-template-columns: 1fr; text-align: left; display: flex; flex-direction: column-reverse; gap: 24px; } 
+          .hero-grid { 
+            grid-template-columns: 1fr; 
+            text-align: left; 
+            display: flex; 
+            flex-direction: column-reverse; /* Foto di atas, Teks di bawah di HP */
+            gap: 24px; 
+          } 
           .hero { padding-top: 85px; padding-bottom: 20px; }
         }
 
@@ -150,13 +157,11 @@ export default function Home() {
         .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
         .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* FOTO PROFIL UTAMA (DIJAMIN MUNCUL DI HP & PC) */
+        /* FOTO PROFIL UTAMA (RESPONSIVE AMAN DI HP & PC) */
         .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
         .profile-circle-wrapper { 
-          width: clamp(160px, 38vw, 220px); 
-          height: clamp(160px, 38vw, 220px); 
-          min-width: 160px;
-          min-height: 160px;
+          width: clamp(150px, 35vw, 220px); 
+          height: clamp(150px, 35vw, 220px); 
           border-radius: 50%; 
           background: #121722; 
           border: 1px solid rgba(255, 255, 255, 0.1); 
@@ -302,7 +307,7 @@ export default function Home() {
         </header>
       )}
 
-      {/* ANIMASI MENU DRAWER */}
+      {/* MENU DRAWER */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div

@@ -108,7 +108,7 @@ export default function Home() {
         body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; overflow-x: hidden; width: 100%; max-width: 100vw; }
         a { color: inherit; text-decoration: none; }
 
-        .container { max-width: 1080px; margin: 0 auto; padding: 0 20px; width: 100%; }
+        .container { max-width: 980px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 24px); width: 100%; }
 
         /* NAVBAR RESPONSIVE */
         .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(8, 10, 15, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(16px, 4vw, 32px); }
@@ -125,7 +125,7 @@ export default function Home() {
         .menu-toggle-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; color: #ffffff; cursor: pointer; transition: 0.2s; z-index: 101; flex-shrink: 0; }
         .menu-toggle-btn:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* MENU DRAWER */
+        /* MENU OVERLAY */
         .menu-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(8, 10, 15, 0.98); backdrop-filter: blur(20px); display: flex; align-items: flex-start; justify-content: flex-start; padding: 12vh 0 0 clamp(20px, 5vw, 48px); }
         .menu-links { display: flex; flex-direction: column; gap: 16px; text-align: left; }
         .menu-item { font-size: clamp(18px, 4vw, 24px); font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
@@ -133,20 +133,31 @@ export default function Home() {
         .menu-dot { width: 5px; height: 5px; border-radius: 50%; background: #ccff00; opacity: 0; }
         .menu-item:hover .menu-dot { opacity: 1; }
 
-        /* HERO SECTION RESPONSIVE UNTUK SEMUA PERANGKAT */
-        .hero { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; padding-top: 100px; padding-bottom: 40px; }
-        .hero-grid { display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 30px; width: 100%; }
-        
-        .hero-text { flex: 1; min-width: 0; }
-        
-        /* FOTO PROFIL RESPONSIVE HP, LAPTOP, TAB */
-        .profile-avatar-container { display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
+        /* HERO SECTION */
+        .hero { min-height: 65vh; display: flex; flex-direction: column; justify-content: center; padding-top: 100px; padding-bottom: 24px; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(24px, 4vw, 40px); align-items: center; }
+        @media (max-width: 800px) { 
+          .hero-grid { grid-template-columns: 1fr; text-align: left; display: flex; flex-direction: column-reverse; gap: 30px; } 
+          .hero { padding-top: 85px; padding-bottom: 20px; }
+        }
+
+        .hero-title { font-size: clamp(34px, 6vw, 60px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px; color: #ffffff; word-break: break-word; }
+        .hero-sub { font-size: clamp(14px, 2vw, 17px); color: #ffffff; margin-bottom: 24px; opacity: 0.9; }
+
+        .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .btn-main { background: #ccff00; color: #080a0f; padding: 11px 26px; border-radius: 99px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-main:hover { background: #b8e600; transform: translateY(-1px); }
+        .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
+        .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
+
+        /* FOTO PROFIL UTAMA (NO SHADOW, RESPONSIVE FULL) */
+        .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
         .profile-circle-wrapper { 
-          width: clamp(140px, 35vw, 220px); 
-          height: clamp(140px, 35vw, 220px); 
+          width: clamp(140px, 36vw, 220px); 
+          height: clamp(140px, 36vw, 220px); 
           border-radius: 50%; 
           background: #121722; 
-          border: 2px solid rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.1); 
           display: flex; 
           align-items: center; 
           justify-content: center; 
@@ -155,80 +166,63 @@ export default function Home() {
           position: relative; 
         }
 
-        /* BREAKPOINT HP & TABLET KECIL */
-        @media (max-width: 768px) { 
-          .hero-grid { 
-            flex-direction: column-reverse; 
-            text-align: center; 
-            gap: 24px; 
-          } 
-          .hero-actions { justify-content: center; }
-          .hero { padding-top: 90px; padding-bottom: 20px; }
-        }
-
-        .hero-title { font-size: clamp(32px, 5.5vw, 56px); font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 14px; color: #ffffff; }
-        .hero-sub { font-size: clamp(14px, 2vw, 16px); color: rgba(255,255,255,0.85); margin-bottom: 24px; max-width: 580px; }
-
-        .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .btn-main { background: #ccff00; color: #080a0f; padding: 11px 24px; border-radius: 99px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-        .btn-main:hover { background: #b8e600; transform: translateY(-1px); }
-        .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 24px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
-        .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
-
         /* SECTIONS */
-        .section { padding: clamp(40px, 6vw, 60px) 0; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: left; }
-        .section-tag-large { color: #ffffff; font-size: clamp(24px, 4vw, 36px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; display: block; }
+        .section { padding: clamp(36px, 5vw, 56px) 0; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: left; }
+        .section-tag-large { color: #ffffff; font-size: clamp(24px, 4vw, 40px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; display: block; }
         .section-tag { color: #ccff00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .section-title { font-size: clamp(22px, 3.5vw, 32px); font-weight: 800; letter-spacing: -0.8px; margin-bottom: 6px; color: #ffffff; }
-        .section-subtitle { color: rgba(255,255,255,0.7); font-size: clamp(13px, 1.5vw, 14px); margin-bottom: 30px; }
+        .section-title { font-size: clamp(22px, 3.5vw, 34px); font-weight: 800; letter-spacing: -0.8px; margin-bottom: 6px; color: #ffffff; }
+        .section-subtitle { color: #ffffff; font-size: clamp(13px, 1.5vw, 14px); margin-bottom: 30px; opacity: 0.9; }
 
         /* ABOUT */
-        .about-text-content { font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.9); line-height: 1.7; max-width: 820px; font-weight: 400; }
+        .about-text-content { font-size: clamp(15px, 2.2vw, 19px); color: #ffffff; line-height: 1.7; max-width: 820px; font-weight: 400; opacity: 0.9; }
         .about-text-content span { color: #ccff00; font-weight: 600; }
 
         /* PROJECTS */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 2.5vw, 24px); width: 100%; }
         .project-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; overflow: hidden; transition: 0.2s; text-align: left; display: flex; flex-direction: column; }
         .project-card:hover { border-color: rgba(204, 255, 0, 0.3); transform: translateY(-3px); }
         .project-image-box { width: 100%; height: 180px; background: #121722; border-bottom: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
         .project-image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .project-content { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; gap: 12px; }
-        .project-card h3 { font-size: 16px; font-weight: 700; color: #ffffff; margin: 0; }
-        .project-view-btn { background: none; border: none; display: inline-flex; align-items: center; gap: 6px; color: #ccff00; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; transition: 0.2s; width: fit-content; }
+        .project-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; gap: 10px; }
+        .project-card h3 { font-size: clamp(16px, 2vw, 18px); font-weight: 700; color: #ffffff; margin: 0; }
+        .project-view-btn { background: none; border: none; display: inline-flex; align-items: center; gap: 6px; color: #ccff00; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; text-align: left; transition: 0.2s; width: fit-content; }
+        .project-view-btn:hover { opacity: 0.8; transform: translateX(2px); }
 
         /* SERVICES */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; }
-        .service-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; padding: 20px; transition: 0.2s; text-align: left; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 2.5vw, 24px); width: 100%; }
+        .service-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; padding: clamp(18px, 3vw, 24px); transition: 0.2s; text-align: left; }
         .service-card:hover { border-color: rgba(204, 255, 0, 0.3); transform: translateY(-3px); }
-        .service-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #ffffff; }
-        .service-card p { color: rgba(255,255,255,0.7); font-size: 13px; }
+        .service-card h3 { font-size: clamp(16px, 2vw, 18px); font-weight: 700; margin-bottom: 6px; color: #ffffff; }
+        .service-card p { color: #ffffff; opacity: 0.9; font-size: clamp(13px, 1.5vw, 14px); }
         .service-icon-box { width: 40px; height: 40px; background: rgba(204, 255, 0, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #ccff00; margin-bottom: 14px; }
 
         /* CONTACT */
-        .contact-wrapper { background: linear-gradient(135deg, rgba(204, 255, 0, 0.04), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(204, 255, 0, 0.2); border-radius: 20px; padding: clamp(24px, 4vw, 40px) 16px; text-align: center; }
+        .contact-wrapper { background: linear-gradient(135deg, rgba(204, 255, 0, 0.04), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(204, 255, 0, 0.2); border-radius: 20px; padding: clamp(30px, 5vw, 50px) clamp(16px, 4vw, 24px); text-align: center; }
         .email-copy-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px 10px 6px 16px; border-radius: 99px; display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; margin-bottom: 24px; max-width: 100%; overflow: hidden; }
         .email-text { font-size: clamp(12px, 1.8vw, 14px); font-weight: 600; color: #ffffff; word-break: break-all; }
 
-        /* SCROLL TOP */
+        /* BACK TO TOP */
         .scroll-top-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99; background: #ccff00; color: #080a0f; width: 38px; height: 38px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3); }
+        .scroll-top-btn:hover { transform: translateY(-2px); }
 
         /* FOOTER */
         .footer { padding: 32px 0; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; width: 100%; }
         @media (max-width: 500px) {
           .footer { flex-direction: column; justify-content: center; text-align: center; }
         }
+        
         .social-icons { display: flex; gap: 10px; align-items: center; }
         .social-icons a { width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; color: #ffffff; transition: 0.2s; }
         .social-icons a:hover { border-color: #ccff00; color: #ccff00; }
       `}</style>
 
-      {/* SPLASH SCREEN */}
+      {/* 1. ANIMASI SPLASH SCREEN "HELLO WELCOME" */}
       <AnimatePresence>
         {loading && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 1.0, ease: "easeInOut" }}
             style={{
               position: "fixed",
               inset: 0,
@@ -237,20 +231,23 @@ export default function Home() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              overflow: "hidden",
             }}
           >
-            <div style={{ display: "flex", gap: "12px", fontSize: "clamp(24px, 5vw, 56px)", fontWeight: "800", color: "#ffffff", padding: "0 20px", textAlign: "center" }}>
+            <div style={{ display: "flex", gap: "16px", fontSize: "clamp(28px, 6vw, 64px)", fontWeight: "800", color: "#ffffff", padding: "0 20px", textAlign: "center" }}>
               <motion.span
-                initial={{ x: -100, opacity: 0 }}
+                initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 1.0, ease: "easeOut" }}
+                exit={{ x: -100, opacity: 0 }}
+                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
               >
                 Hello,
               </motion.span>
               <motion.span
-                initial={{ x: 100, opacity: 0 }}
+                initial={{ x: 200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 1.0, ease: "easeOut" }}
+                exit={{ x: 100, opacity: 0 }}
+                transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
                 style={{ color: "#ccff00" }}
               >
                 Welcome
@@ -270,6 +267,8 @@ export default function Home() {
                 fontSize: "13px",
                 fontWeight: "600",
                 cursor: "pointer",
+                transition: "0.2s",
+                backdropFilter: "blur(10px)",
               }}
             >
               Skip
@@ -301,7 +300,7 @@ export default function Home() {
         </header>
       )}
 
-      {/* MENU DRAWER */}
+      {/* 2. ANIMASI FULLSCREEN MENU DRAWER */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -309,19 +308,22 @@ export default function Home() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="menu-links">
               {navigation.map(([label, href], idx) => (
-                <a
+                <motion.a
                   key={label}
                   href={href}
                   className="menu-item"
                   onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.04 }}
                 >
                   <span className="menu-dot" />
                   {label}
-                </a>
+                </motion.a>
               ))}
             </div>
           </motion.div>
@@ -329,10 +331,16 @@ export default function Home() {
       </AnimatePresence>
 
       <main className="container">
-        {/* HERO SECTION */}
+        {/* HERO SECTION WITH ANIMATIONS */}
         <section className="hero" id="home">
           <div className="hero-grid">
-            <div className="hero-text">
+            {/* 3. ANIMASI HERO TEXT */}
+            <motion.div
+              initial={{ opacity: 0, x: -70 }}
+              whileInView={!loading ? { opacity: 1, x: 0 } : {}}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            >
               <h1 className="hero-title">
                 Ficko Ditian
               </h1>
@@ -349,29 +357,46 @@ export default function Home() {
                   Contact Me <ArrowUpRight size={14} />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="profile-avatar-container">
+            {/* 4. ANIMASI FOTO PROFIL (MEMBAL TURUN HALUS) */}
+            <motion.div
+              className="profile-avatar-container"
+              initial={{ opacity: 0, y: -250 }}
+              whileInView={!loading ? { opacity: 1, y: 0 } : {}}
+              viewport={{ once: false, amount: 0.3 }}
+              transition={{ duration: 1.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            >
               <div className="profile-circle-wrapper">
                 <img src="/ficko.png" alt="Ficko Ditian" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* ABOUT ME */}
+        {/* 5. ANIMASI ABOUT ME */}
         <section className="section" id="about">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -70 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="section-tag-large">About Me</span>
             <p className="about-text-content">
               I am a dedicated <span>Web Developer</span> passionate about crafting dynamic, modern web experiences. My development workflow centers around clean code architecture, intuitive user interfaces, fast performance, and seamless user engagement. Beyond crafting front-end interactions, I focus on integrating robust backend systems, optimizing server API structures, and delivering scalable, end-to-end web solutions that drive real value.
             </p>
-          </div>
+          </motion.div>
         </section>
 
-        {/* PROJECTS */}
+        {/* 6. ANIMASI PROJECTS */}
         <section className="section" id="projects">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="section-tag">Portfolio</span>
             <h2 className="section-title">Featured Works.</h2>
             <p className="section-subtitle">Recent web development projects.</p>
@@ -401,12 +426,17 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </section>
 
-        {/* SERVICES */}
+        {/* 7. ANIMASI SERVICES */}
         <section className="section" id="services">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="section-tag">Services</span>
             <h2 className="section-title">What I build.</h2>
             <p className="section-subtitle">Modern web engineering solutions tailored for your business.</p>
@@ -425,35 +455,42 @@ export default function Home() {
                 );
               })}
             </div>
-          </div>
+          </motion.div>
         </section>
 
-        {/* CONTACT */}
+        {/* 8. ANIMASI CONTACT */}
         <section className="section" id="contact">
-          <div className="contact-wrapper">
-            <span className="section-tag" style={{ justifyContent: "center", marginBottom: "8px" }}>Get In Touch</span>
-            
-            <h2 style={{ fontSize: "clamp(22px, 3.5vw, 32px)", fontWeight: "800", marginBottom: "8px", color: "#ffffff" }}>
-              Got a project in mind? <br /><span style={{ color: "#ccff00" }}>Let's build it together.</span>
-            </h2>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="contact-wrapper">
+              <span className="section-tag" style={{ justifyContent: "center", marginBottom: "8px" }}>Get In Touch</span>
+              
+              <h2 style={{ fontSize: "clamp(22px, 3.5vw, 32px)", fontWeight: "800", marginBottom: "8px", color: "#ffffff" }}>
+                Got a project in mind? <br /><span style={{ color: "#ccff00" }}>Let's build it together.</span>
+              </h2>
 
-            <div className="email-copy-box">
-              <span className="email-text">{userEmail}</span>
-              <button className="btn-main" onClick={copyToClipboard} style={{ padding: "4px 10px", fontSize: "11px" }}>
-                {copied ? <Check size={12} /> : <Copy size={12} />}
-                <span>{copied ? "Copied!" : "Copy"}</span>
-              </button>
-            </div>
+              <div className="email-copy-box">
+                <span className="email-text">{userEmail}</span>
+                <button className="btn-main" onClick={copyToClipboard} style={{ padding: "4px 10px", fontSize: "11px" }}>
+                  {copied ? <Check size={12} /> : <Copy size={12} />}
+                  <span>{copied ? "Copied!" : "Copy"}</span>
+                </button>
+              </div>
 
-            <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="https://wa.me/6285732095945" target="_blank" rel="noreferrer" className="btn-main">
-                <MessageCircle size={14} /> WhatsApp
-              </a>
-              <a href={`mailto:${userEmail}`} className="btn-sub">
-                <Mail size={14} /> Direct Email
-              </a>
+              <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
+                <a href="https://wa.me/6285732095945" target="_blank" rel="noreferrer" className="btn-main">
+                  <MessageCircle size={14} /> WhatsApp
+                </a>
+                <a href={`mailto:${userEmail}`} className="btn-sub">
+                  <Mail size={14} /> Direct Email
+                </a>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* FOOTER */}
@@ -467,7 +504,7 @@ export default function Home() {
         </footer>
       </main>
 
-      {/* MODAL POPUP GAMBAR */}
+      {/* 9. ANIMASI MODAL POPUP PREVIEW GAMBAR */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -487,7 +524,10 @@ export default function Home() {
               padding: "20px",
             }}
           >
-            <div
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: "relative",
@@ -521,24 +561,29 @@ export default function Home() {
               >
                 <X size={18} />
               </button>
-              <div style={{ width: "100%", height: "350px", display: "flex", alignItems: "center", justifyCenter: "center", background: "#080a0f", borderRadius: "8px", overflow: "hidden" }}>
+              <div style={{ width: "100%", height: "350px", display: "flex", alignItems: "center", justifyContent: "center", background: "#080a0f", borderRadius: "8px", overflow: "hidden" }}>
                 <img src={selectedImage} alt="Project Preview" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* BACK TO TOP */}
-      {showScrollTop && (
-        <button
-          className="scroll-top-btn"
-          onClick={scrollToTop}
-          aria-label="Back to top"
-        >
-          <ArrowUp size={16} />
-        </button>
-      )}
+      {/* 10. ANIMASI SCROLL TOP BUTTON */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            className="scroll-top-btn"
+            onClick={scrollToTop}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            aria-label="Back to top"
+          >
+            <ArrowUp size={16} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </>
   );
 }

@@ -108,10 +108,10 @@ export default function Home() {
         body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; overflow-x: hidden; width: 100%; max-width: 100vw; }
         a { color: inherit; text-decoration: none; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 40px); width: 100%; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); width: 100%; }
 
         /* NAVBAR */
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(8, 10, 15, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(20px, 5vw, 48px); }
+        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(8, 10, 15, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(16px, 4vw, 48px); }
         
         .nav-profile-logo { width: 38px; height: 38px; border-radius: 50%; background: #121722; border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; overflow: hidden; flex-shrink: 0; }
         .nav-profile-logo:hover { transform: scale(1.05); }
@@ -133,49 +133,49 @@ export default function Home() {
         .menu-dot { width: 6px; height: 6px; border-radius: 50%; background: #ccff00; opacity: 0; }
         .menu-item:hover .menu-dot { opacity: 1; }
 
-        /* HERO SECTION */
-        .hero { min-height: 85vh; display: flex; align-items: center; padding-top: 90px; padding-bottom: 40px; }
-        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(30px, 5vw, 60px); align-items: center; width: 100%; }
+        /* HERO SECTION RESPONSIVE FULL TERLIHAT */
+        .hero { min-height: 80vh; display: flex; align-items: center; padding-top: 100px; padding-bottom: 40px; }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 40px); align-items: center; width: 100%; }
         
         @media (max-width: 850px) { 
           .hero-grid { 
             grid-template-columns: 1fr; 
-            text-align: center; /* Di HP teks rata tengah penuh */
+            text-align: center; 
             display: flex; 
-            flex-direction: column; 
+            flex-direction: column-reverse; /* Foto di Atas, Teks di Bawah pada HP */
             justify-content: center;
             align-items: center;
+            gap: 20px;
           } 
-          .hero { min-height: auto; padding-top: 100px; padding-bottom: 30px; }
+          .hero { min-height: auto; padding-top: 90px; padding-bottom: 30px; }
           .hero-actions { justify-content: center; }
-          /* Foto profil disembunyikan di HP agar teks tampil full di tengah */
-          .profile-avatar-container { display: none !important; }
         }
 
-        .hero-title { font-size: clamp(36px, 5.5vw, 64px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; color: #ffffff; word-break: break-word; }
-        .hero-sub { font-size: clamp(15px, 1.8vw, 18px); color: #ffffff; margin-bottom: 28px; opacity: 0.85; line-height: 1.6; max-width: 540px; }
+        .hero-title { font-size: clamp(34px, 5.5vw, 64px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px; color: #ffffff; word-break: break-word; }
+        .hero-sub { font-size: clamp(14px, 1.8vw, 18px); color: #ffffff; margin-bottom: 24px; opacity: 0.85; line-height: 1.6; max-width: 540px; }
         @media (max-width: 850px) { .hero-sub { margin-left: auto; margin-right: auto; } }
 
-        .hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+        .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
         .btn-main { background: #ccff00; color: #080a0f; padding: 12px 28px; border-radius: 99px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .btn-main:hover { background: #b8e600; transform: translateY(-1px); }
         .btn-sub { border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 12px 28px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
         .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
 
-        /* FOTO PROFIL UTAMA (Tampil di PC, Sembunyi di HP) */
-        .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
+        /* FOTO PROFIL UTAMA (TAMPIL TERANG & TERLIHAT PENUH DI HP & PC) */
+        .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 10px; }
         .profile-circle-wrapper { 
-          width: clamp(180px, 32vw, 260px); 
-          height: clamp(180px, 32vw, 260px); 
+          width: clamp(140px, 36vw, 240px); 
+          height: clamp(140px, 36vw, 240px); 
           border-radius: 50%; 
           background: #121722; 
-          border: 1px solid rgba(255, 255, 255, 0.12); 
+          border: 2px solid rgba(255, 255, 255, 0.15); 
           display: flex; 
           align-items: center; 
           justify-content: center; 
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); 
           overflow: hidden; 
           position: relative; 
+          flex-shrink: 0;
         }
 
         /* SECTIONS */
@@ -190,7 +190,7 @@ export default function Home() {
         .about-text-content span { color: #ccff00; font-weight: 600; }
 
         /* PROJECTS */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(20px, 3vw, 28px); width: 100%; }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: clamp(20px, 3vw, 28px); width: 100%; }
         .project-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; overflow: hidden; transition: 0.2s; text-align: left; display: flex; flex-direction: column; }
         .project-card:hover { border-color: rgba(204, 255, 0, 0.3); transform: translateY(-3px); }
         .project-image-box { width: 100%; height: 200px; background: #121722; border-bottom: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
@@ -201,7 +201,7 @@ export default function Home() {
         .project-view-btn:hover { opacity: 0.8; transform: translateX(2px); }
 
         /* SERVICES */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(20px, 3vw, 28px); width: 100%; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: clamp(20px, 3vw, 28px); width: 100%; }
         .service-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; padding: clamp(22px, 3vw, 28px); transition: 0.2s; text-align: left; }
         .service-card:hover { border-color: rgba(204, 255, 0, 0.3); transform: translateY(-3px); }
         .service-card h3 { font-size: clamp(17px, 2vw, 19px); font-weight: 700; margin-bottom: 8px; color: #ffffff; }
@@ -343,10 +343,10 @@ export default function Home() {
       </AnimatePresence>
 
       <main className="container">
-        {/* HERO SECTION */}
+        {/* HERO SECTION (FOTO & TEKS SEMUANYA TAMPIL PENUH) */}
         <section className="hero" id="home">
           <div className="hero-grid">
-            {/* Teks Nama Muncul dari Kiri */}
+            {/* Teks Nama & Subtitle Muncul dari Kiri */}
             <motion.div
               initial={{ opacity: 0, x: -70 }}
               whileInView={!loading ? { opacity: 1, x: 0 } : {}}
@@ -371,13 +371,13 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Foto Profil (Tampil di PC, Sembunyi di HP) */}
+            {/* Foto Profil (Tampil Stabil Tanpa Terpotong) */}
             <motion.div
               className="profile-avatar-container"
-              initial={{ opacity: 0, y: -250 }}
-              whileInView={!loading ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={!loading ? { opacity: 1, scale: 1 } : {}}
               viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 1.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="profile-circle-wrapper">
                 <img src="/ficko.png" alt="Ficko Ditian" style={{ width: "100%", height: "100%", objectFit: "cover" }} />

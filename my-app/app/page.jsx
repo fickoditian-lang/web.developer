@@ -140,7 +140,7 @@ export default function Home() {
         @media (max-width: 850px) { 
           .hero-grid { 
             grid-template-columns: 1fr; 
-            text-align: center; /* Di HP teks jadi rata tengah */
+            text-align: center; /* Di HP teks rata tengah penuh */
             display: flex; 
             flex-direction: column; 
             justify-content: center;
@@ -148,7 +148,7 @@ export default function Home() {
           } 
           .hero { min-height: auto; padding-top: 100px; padding-bottom: 30px; }
           .hero-actions { justify-content: center; }
-          /* Foto profil disembunyikan khusus di HP */
+          /* Foto profil disembunyikan di HP agar teks tampil full di tengah */
           .profile-avatar-container { display: none !important; }
         }
 
@@ -346,9 +346,9 @@ export default function Home() {
         {/* HERO SECTION */}
         <section className="hero" id="home">
           <div className="hero-grid">
-            {/* Teks Nama Muncul dari Kanan & di HP Posisinya di Tengah */}
+            {/* Teks Nama Muncul dari Kiri */}
             <motion.div
-              initial={{ opacity: 0, x: 70 }}
+              initial={{ opacity: 0, x: -70 }}
               whileInView={!loading ? { opacity: 1, x: 0 } : {}}
               viewport={{ once: false, amount: 0.3 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
@@ -371,7 +371,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            {/* Foto Profil (Tampil di PC, Tersembunyi di HP) */}
+            {/* Foto Profil (Tampil di PC, Sembunyi di HP) */}
             <motion.div
               className="profile-avatar-container"
               initial={{ opacity: 0, y: -250 }}

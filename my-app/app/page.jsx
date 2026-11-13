@@ -78,7 +78,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3200);
+    }, 2800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -105,130 +105,246 @@ export default function Home() {
       <style jsx global>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; overflow-x: hidden; width: 100%; max-width: 100vw; }
+        body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; overflow-x: hidden; width: 100%; max-width: 100vw; text-align: left; }
         a { color: inherit; text-decoration: none; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); width: 100%; }
+        .container { max-width: 980px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 32px); width: 100%; box-sizing: border-box; }
 
-        /* NAVBAR */
-        .navbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: rgba(8, 10, 15, 0.9); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.06); height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(16px, 4vw, 48px); }
+        /* NAVBAR SOLID TEMA (#080a0f) */
+        .navbar { 
+          position: fixed; 
+          top: 0; 
+          left: 0; 
+          width: 100%; 
+          z-index: 102; 
+          background: #080a0f; 
+          border-bottom: 1px solid rgba(255,255,255,0.08); 
+          height: 68px; 
+          display: flex; 
+          align-items: center; 
+          justify-content: space-between; 
+          padding: 0 clamp(20px, 5vw, 32px); 
+          box-sizing: border-box; 
+        }
         
-        .nav-profile-logo { width: 38px; height: 38px; border-radius: 50%; background: #121722; border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; overflow: hidden; flex-shrink: 0; }
+        .nav-profile-logo { width: 38px; height: 38px; border-radius: 50%; background: #121722; border: 1px solid rgba(255, 255, 255, 0.15); color: #ffffff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; overflow: hidden; flex-shrink: 0; }
         .nav-profile-logo:hover { transform: scale(1.05); }
 
-        .nav-right { display: flex; align-items: center; gap: 14px; }
-        .btn-talk { background: #ccff00; color: #080a0f; padding: 9px 20px; border-radius: 99px; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .nav-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+        .btn-talk { background: #ccff00; color: #080a0f; padding: 8px 18px; border-radius: 99px; font-weight: 700; font-size: 13px; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s; }
         .btn-talk:hover { background: #b8e600; }
         @media (max-width: 640px) { .btn-talk { display: none; } }
 
         /* MENU TOGGLE */
-        .menu-toggle-btn { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 99px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #ffffff; cursor: pointer; transition: 0.2s; z-index: 101; flex-shrink: 0; }
-        .menu-toggle-btn:hover { border-color: #ccff00; color: #ccff00; }
-
-        /* MENU DRAWER */
-        .menu-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(8, 10, 15, 0.98); backdrop-filter: blur(20px); display: flex; align-items: flex-start; justify-content: flex-start; padding: 12vh 0 0 clamp(24px, 5vw, 56px); }
-        .menu-links { display: flex; flex-direction: column; gap: 18px; text-align: left; }
-        .menu-item { font-size: clamp(20px, 4vw, 26px); font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 12px; transition: 0.2s; }
-        .menu-item:hover { color: #ccff00; transform: translateX(6px); }
-        .menu-dot { width: 6px; height: 6px; border-radius: 50%; background: #ccff00; opacity: 0; }
-        .menu-item:hover .menu-dot { opacity: 1; }
-
-        /* HERO SECTION RESPONSIVE FULL TERLIHAT */
-        .hero { min-height: 80vh; display: flex; align-items: center; padding-top: 100px; padding-bottom: 40px; }
-        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 40px); align-items: center; width: 100%; }
-        
-        @media (max-width: 850px) { 
-          .hero-grid { 
-            grid-template-columns: 1fr; 
-            text-align: center; 
-            display: flex; 
-            flex-direction: column-reverse; /* Foto di Atas, Teks di Bawah pada HP */
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-          } 
-          .hero { min-height: auto; padding-top: 90px; padding-bottom: 30px; }
-          .hero-actions { justify-content: center; }
-        }
-
-        .hero-title { font-size: clamp(34px, 5.5vw, 64px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px; color: #ffffff; word-break: break-word; }
-        .hero-sub { font-size: clamp(14px, 1.8vw, 18px); color: #ffffff; margin-bottom: 24px; opacity: 0.85; line-height: 1.6; max-width: 540px; }
-        @media (max-width: 850px) { .hero-sub { margin-left: auto; margin-right: auto; } }
-
-        .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-        .btn-main { background: #ccff00; color: #080a0f; padding: 12px 28px; border-radius: 99px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-        .btn-main:hover { background: #b8e600; transform: translateY(-1px); }
-        .btn-sub { border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 12px 28px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
-        .btn-sub:hover { border-color: #ccff00; color: #ccff00; }
-
-        /* FOTO PROFIL UTAMA (TAMPIL TERANG & TERLIHAT PENUH DI HP & PC) */
-        .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 10px; }
-        .profile-circle-wrapper { 
-          width: clamp(140px, 36vw, 240px); 
-          height: clamp(140px, 36vw, 240px); 
-          border-radius: 50%; 
+        .menu-toggle-btn { 
           background: #121722; 
-          border: 2px solid rgba(255, 255, 255, 0.15); 
+          border: 1px solid rgba(255,255,255,0.15); 
+          border-radius: 10px; 
+          width: 40px; 
+          height: 40px; 
           display: flex; 
           align-items: center; 
           justify-content: center; 
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6); 
+          color: #ffffff; 
+          cursor: pointer; 
+          transition: 0.2s; 
+          flex-shrink: 0; 
+        }
+        .menu-toggle-btn:hover { border-color: #ccff00; color: #ccff00; }
+
+        /* MENU DRAWER SETENGAH LAYAR SOLID */
+        .menu-overlay { 
+          position: fixed; 
+          top: 68px; 
+          left: 0; 
+          width: 100%; 
+          height: auto;
+          z-index: 101; 
+          background: #080a0f; 
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+          border-radius: 0 0 28px 28px;
+          padding: 24px clamp(20px, 5vw, 32px) 32px; 
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
+          box-sizing: border-box; 
+        }
+        .menu-links { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+        .menu-item { 
+          font-size: 18px; 
+          font-weight: 600; 
+          color: #ffffff; 
+          display: block;
+          padding: 4px 0;
+          transition: color 0.2s ease; 
+        }
+        .menu-item:hover { color: #ccff00; }
+        
+        .menu-drawer-cta {
+          margin-top: 12px;
+          background: #ccff00;
+          color: #080a0f;
+          padding: 12px 24px;
+          border-radius: 99px;
+          font-weight: 700;
+          font-size: 14px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          width: fit-content;
+          transition: background 0.2s;
+        }
+        .menu-drawer-cta:hover { background: #b8e600; }
+
+        /* HERO SECTION - RATA KIRI SEMPURNA DI SEMUA PERANGKAT */
+        .hero { min-height: 75vh; display: flex; flex-direction: column; justify-content: center; padding-top: 110px; padding-bottom: 30px; text-align: left !important; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(24px, 4vw, 40px); align-items: center; width: 100%; text-align: left !important; }
+        @media (max-width: 800px) { 
+          .hero-grid { grid-template-columns: 1fr; display: flex; flex-direction: column-reverse; gap: 32px; text-align: left !important; align-items: flex-start !important; } 
+          .hero { padding-top: 90px; padding-bottom: 24px; min-height: auto; text-align: left !important; }
+          .hero-actions { justify-content: flex-start !important; }
+        }
+
+        .hero-title { font-size: clamp(36px, 7vw, 60px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px; color: #ffffff; word-break: break-word; text-align: left !important; width: 100%; }
+        .hero-sub { font-size: clamp(14px, 2vw, 17px); color: #ffffff; margin-bottom: 24px; opacity: 0.9; line-height: 1.6; text-align: left !important; width: 100%; }
+
+        .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: flex-start !important; text-align: left !important; width: 100%; }
+        .btn-main { background: #ccff00; color: #080a0f; padding: 11px 26px; border-radius: 99px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .btn-main:hover { background: #b8e600; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(204,255,0,0.3); }
+        .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
+        .btn-sub:hover { border-color: #ccff00; color: #ccff00; transform: translateY(-2px); }
+
+        /* FOTO PROFIL UTAMA */
+        .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
+        @media (min-width: 801px) {
+          .profile-avatar-container { justify-content: flex-end; }
+        }
+        .profile-circle-wrapper { 
+          width: clamp(160px, 35vw, 220px); 
+          height: clamp(160px, 35vw, 220px); 
+          border-radius: 50%; 
+          background: #121722; 
+          border: 1px solid rgba(255, 255, 255, 0.1); 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
           overflow: hidden; 
           position: relative; 
           flex-shrink: 0;
+          transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-circle-wrapper:hover {
+          transform: scale(1.04);
+          border-color: rgba(204, 255, 0, 0.5);
+          box-shadow: 0 0 25px rgba(204, 255, 0, 0.2);
         }
 
-        /* SECTIONS */
-        .section { padding: clamp(48px, 6vw, 80px) 0; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: left; }
-        .section-tag-large { color: #ffffff; font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; display: block; }
-        .section-tag { color: #ccff00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .section-title { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; letter-spacing: -0.8px; margin-bottom: 8px; color: #ffffff; }
-        .section-subtitle { color: #ffffff; font-size: clamp(14px, 1.5vw, 15px); margin-bottom: 36px; opacity: 0.85; }
+        /* SECTIONS - RATA KIRI */
+        .section { padding: clamp(40px, 6vw, 64px) 0; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: left !important; overflow: hidden; width: 100%; }
+        .section-tag-large { color: #ffffff; font-size: clamp(26px, 4vw, 40px); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; display: block; text-align: left !important; width: 100%; }
+        .section-tag { color: #ccff00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; text-align: left !important; width: 100%; }
+        .section-title { font-size: clamp(22px, 3.5vw, 34px); font-weight: 800; letter-spacing: -0.8px; margin-bottom: 6px; color: #ffffff; text-align: left !important; width: 100%; }
+        .section-subtitle { color: #ffffff; font-size: clamp(13px, 1.5vw, 14px); margin-bottom: 30px; opacity: 0.9; text-align: left !important; width: 100%; }
 
         /* ABOUT */
-        .about-text-content { font-size: clamp(16px, 2.2vw, 20px); color: #ffffff; line-height: 1.8; max-width: 900px; font-weight: 400; opacity: 0.9; }
+        .about-text-content { font-size: clamp(15px, 2.2vw, 19px); color: #ffffff; line-height: 1.7; max-width: 820px; font-weight: 400; opacity: 0.9; text-align: left !important; width: 100%; }
         .about-text-content span { color: #ccff00; font-weight: 600; }
 
-        /* PROJECTS */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: clamp(20px, 3vw, 28px); width: 100%; }
-        .project-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; overflow: hidden; transition: 0.2s; text-align: left; display: flex; flex-direction: column; }
-        .project-card:hover { border-color: rgba(204, 255, 0, 0.3); transform: translateY(-3px); }
-        .project-image-box { width: 100%; height: 200px; background: #121722; border-bottom: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-        .project-image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .project-content { padding: 24px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; gap: 12px; }
-        .project-card h3 { font-size: clamp(17px, 2vw, 19px); font-weight: 700; color: #ffffff; margin: 0; }
-        .project-view-btn { background: none; border: none; display: inline-flex; align-items: center; gap: 6px; color: #ccff00; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; text-align: left; transition: 0.2s; width: fit-content; }
-        .project-view-btn:hover { opacity: 0.8; transform: translateX(2px); }
+        /* PROJECTS GRID */
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 2.5vw, 24px); width: 100%; text-align: left !important; }
+        .project-card { 
+          background: rgba(255, 255, 255, 0.02); 
+          border: 1px solid rgba(255, 255, 255, 0.06); 
+          border-radius: 16px; 
+          overflow: hidden; 
+          transition: all 0.3s ease; 
+          text-align: left !important; 
+          display: flex; 
+          flex-direction: column; 
+        }
+        .project-card:hover { 
+          border-color: rgba(204, 255, 0, 0.5); 
+          transform: translateY(-6px); 
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(204, 255, 0, 0.15); 
+        }
+        .project-image-box { width: 100%; height: 180px; background: #121722; border-bottom: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .project-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .project-card:hover .project-image-box img { transform: scale(1.06); }
+        .project-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; gap: 10px; text-align: left !important; }
+        .project-card h3 { font-size: clamp(16px, 2vw, 18px); font-weight: 700; color: #ffffff; margin: 0; text-align: left !important; }
+        .project-view-btn { background: none; border: none; display: inline-flex; align-items: center; gap: 6px; color: #ccff00; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; text-align: left !important; transition: 0.2s; width: fit-content; }
+        .project-view-btn:hover { opacity: 0.8; transform: translateX(3px); }
 
-        /* SERVICES */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: clamp(20px, 3vw, 28px); width: 100%; }
-        .service-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 18px; padding: clamp(22px, 3vw, 28px); transition: 0.2s; text-align: left; }
-        .service-card:hover { border-color: rgba(204, 255, 0, 0.3); transform: translateY(-3px); }
-        .service-card h3 { font-size: clamp(17px, 2vw, 19px); font-weight: 700; margin-bottom: 8px; color: #ffffff; }
-        .service-card p { color: #ffffff; opacity: 0.85; font-size: clamp(14px, 1.5vw, 15px); line-height: 1.6; }
-        .service-icon-box { width: 44px; height: 44px; background: rgba(204, 255, 0, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #ccff00; margin-bottom: 16px; }
+        /* SERVICES GRID */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 2.5vw, 24px); width: 100%; text-align: left !important; }
+        .service-card { 
+          background: rgba(255, 255, 255, 0.02); 
+          border: 1px solid rgba(255, 255, 255, 0.06); 
+          border-radius: 16px; 
+          padding: clamp(18px, 3vw, 24px); 
+          transition: all 0.3s ease; 
+          text-align: left !important; 
+        }
+        .service-card:hover { 
+          border-color: rgba(204, 255, 0, 0.5); 
+          transform: translateY(-6px); 
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(204, 255, 0, 0.15); 
+          background: rgba(255, 255, 255, 0.04); 
+        }
+        .service-card h3 { font-size: clamp(16px, 2vw, 18px); font-weight: 700; margin-bottom: 6px; color: #ffffff; transition: color 0.2s; text-align: left !important; }
+        .service-card:hover h3 { color: #ccff00; }
+        .service-card p { color: #ffffff; opacity: 0.9; font-size: clamp(13px, 1.5vw, 14px); text-align: left !important; }
+        .service-icon-box { 
+          width: 40px; 
+          height: 40px; 
+          background: rgba(204, 255, 0, 0.1); 
+          border-radius: 10px; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          color: #ccff00; 
+          margin-bottom: 14px; 
+          transition: transform 0.3s ease, background 0.3s ease; 
+        }
+        .service-card:hover .service-icon-box { 
+          transform: scale(1.1) rotate(5deg); 
+          background: rgba(204, 255, 0, 0.2); 
+        }
 
-        /* CONTACT */
-        .contact-wrapper { background: linear-gradient(135deg, rgba(204, 255, 0, 0.04), rgba(255, 255, 255, 0.01)); border: 1px solid rgba(204, 255, 0, 0.2); border-radius: 24px; padding: clamp(36px, 6vw, 60px) clamp(20px, 4vw, 32px); text-align: center; }
-        .email-copy-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 8px 12px 8px 18px; border-radius: 99px; display: inline-flex; align-items: center; gap: 12px; margin-top: 18px; margin-bottom: 28px; max-width: 100%; overflow: hidden; }
-        .email-text { font-size: clamp(13px, 1.8vw, 15px); font-weight: 600; color: #ffffff; word-break: break-all; }
+        /* CONTACT SECTION */
+        .contact-wrapper { 
+          background: linear-gradient(135deg, rgba(204, 255, 0, 0.04), rgba(255, 255, 255, 0.01)); 
+          border: 1px solid rgba(204, 255, 0, 0.2); 
+          border-radius: 20px; 
+          padding: clamp(30px, 5vw, 50px) clamp(16px, 4vw, 24px); 
+          text-align: center; 
+          width: 100%; 
+          box-sizing: border-box; 
+          transition: all 0.3s ease; 
+        }
+        .contact-wrapper:hover {
+          border-color: rgba(204, 255, 0, 0.5);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(204, 255, 0, 0.15);
+        }
+        .email-copy-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px 10px 6px 16px; border-radius: 99px; display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; margin-bottom: 24px; max-width: 100%; overflow: hidden; box-sizing: border-box; }
+        .email-text { font-size: clamp(12px, 1.8vw, 14px); font-weight: 600; color: #ffffff; word-break: break-all; }
 
         /* BACK TO TOP */
-        .scroll-top-btn { position: fixed; bottom: 24px; right: 24px; z-index: 99; background: #ccff00; color: #080a0f; width: 42px; height: 42px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3); }
+        .scroll-top-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99; background: #ccff00; color: #080a0f; width: 38px; height: 38px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3); }
         .scroll-top-btn:hover { transform: translateY(-2px); }
 
         /* FOOTER */
-        .footer { padding: 36px 0; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; width: 100%; }
-        @media (max-width: 600px) {
+        .footer { padding: 32px 0; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; width: 100%; text-align: left !important; }
+        @media (max-width: 500px) {
           .footer { flex-direction: column; justify-content: center; text-align: center; }
         }
         
-        .social-icons { display: flex; gap: 12px; align-items: center; }
-        .social-icons a { width: 38px; height: 38px; border-radius: 50%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; color: #ffffff; transition: 0.2s; }
-        .social-icons a:hover { border-color: #ccff00; color: #ccff00; }
+        .social-icons { display: flex; gap: 10px; align-items: center; }
+        @media (max-width: 500px) { .social-icons { justify-content: center; } }
+        .social-icons a { width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; color: #ffffff; transition: 0.2s; }
+        .social-icons a:hover { border-color: #ccff00; color: #ccff00; transform: scale(1.1); }
       `}</style>
 
-      {/* ANIMASI SPLASH SCREEN */}
+      {/* ANIMASI SPLASH SCREEN AWAL */}
       <AnimatePresence>
         {loading && (
           <motion.div
@@ -238,6 +354,7 @@ export default function Home() {
             style={{
               position: "fixed",
               inset: 0,
+              height: "100dvh",
               zIndex: 99999,
               background: "#080a0f",
               display: "flex",
@@ -274,12 +391,11 @@ export default function Home() {
                 background: "rgba(255, 255, 255, 0.08)",
                 border: "1px solid rgba(255, 255, 255, 0.15)",
                 color: "#ffffff",
-                padding: "9px 26px",
+                padding: "8px 24px",
                 borderRadius: "99px",
                 fontSize: "13px",
                 fontWeight: "600",
                 cursor: "pointer",
-                transition: "0.2s",
                 backdropFilter: "blur(10px)",
               }}
             >
@@ -292,13 +408,13 @@ export default function Home() {
       {/* NAVBAR */}
       {!loading && (
         <header className="navbar">
-          <a href="#home" className="nav-profile-logo" title="Ficko Ditian">
+          <a href="#home" className="nav-profile-logo" title="Ficko Ditian" onClick={() => setMenuOpen(false)}>
             <img src="/ficko.png" alt="Ficko Ditian" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </a>
 
           <div className="nav-right">
             <a href="#contact" className="btn-talk">
-              Let's Talk <ArrowUpRight size={14} />
+              Let's Talk <ArrowUpRight size={13} />
             </a>
 
             <button
@@ -306,52 +422,55 @@ export default function Home() {
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle Navigation Menu"
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </header>
       )}
 
-      {/* MENU DRAWER */}
+      {/* MENU DRAWER SETENGAH LAYAR SOLID */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             className="menu-overlay"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
           >
             <div className="menu-links">
-              {navigation.map(([label, href], idx) => (
-                <motion.a
+              {navigation.map(([label, href]) => (
+                <a
                   key={label}
                   href={href}
                   className="menu-item"
                   onClick={() => setMenuOpen(false)}
-                  initial={{ opacity: 0, x: -16 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.04 }}
                 >
-                  <span className="menu-dot" />
                   {label}
-                </motion.a>
+                </a>
               ))}
+              <a
+                href="#contact"
+                className="menu-drawer-cta"
+                onClick={() => setMenuOpen(false)}
+              >
+                Let's Talk <ArrowUpRight size={15} />
+              </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <main className="container">
-        {/* HERO SECTION (FOTO & TEKS SEMUANYA TAMPIL PENUH) */}
+        {/* HERO SECTION */}
         <section className="hero" id="home">
           <div className="hero-grid">
-            {/* Teks Nama & Subtitle Muncul dari Kiri */}
             <motion.div
-              initial={{ opacity: 0, x: -70 }}
-              whileInView={!loading ? { opacity: 1, x: 0 } : {}}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, x: -80 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+              style={{ textAlign: "left" }}
             >
               <h1 className="hero-title">
                 Ficko Ditian
@@ -363,21 +482,20 @@ export default function Home() {
 
               <div className="hero-actions">
                 <a href="#projects" className="btn-main">
-                  Explore Projects <ArrowUpRight size={16} />
+                  Explore Projects <ArrowUpRight size={15} />
                 </a>
                 <a href="#contact" className="btn-sub">
-                  Contact Me <ArrowUpRight size={15} />
+                  Contact Me <ArrowUpRight size={14} />
                 </a>
               </div>
             </motion.div>
 
-            {/* Foto Profil (Tampil Stabil Tanpa Terpotong) */}
             <motion.div
               className="profile-avatar-container"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={!loading ? { opacity: 1, scale: 1 } : {}}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{ duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, x: 80 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 1.0, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="profile-circle-wrapper">
                 <img src="/ficko.png" alt="Ficko Ditian" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -389,10 +507,11 @@ export default function Home() {
         {/* ABOUT ME */}
         <section className="section" id="about">
           <motion.div
-            initial={{ opacity: 0, x: -70 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, x: -100, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: false }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: "left" }}
           >
             <span className="section-tag-large">About Me</span>
             <p className="about-text-content">
@@ -401,13 +520,14 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* PROJECTS */}
+        {/* PROJECTS / PORTFOLIO (DENGAN ANIMASI POP-UP SAAT DISCROLL) */}
         <section className="section" id="projects">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: "left" }}
           >
             <span className="section-tag">Portfolio</span>
             <h2 className="section-title">Featured Works.</h2>
@@ -441,13 +561,14 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* SERVICES */}
+        {/* SERVICES (DENGAN ANIMASI POP-UP SAAT DISCROLL) */}
         <section className="section" id="services">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            style={{ textAlign: "left" }}
           >
             <span className="section-tag">Services</span>
             <h2 className="section-title">What I build.</h2>
@@ -459,7 +580,7 @@ export default function Home() {
                 return (
                   <div key={i} className="service-card">
                     <div className="service-icon-box">
-                      <IconComponent size={20} />
+                      <IconComponent size={18} />
                     </div>
                     <h3>{s.title}</h3>
                     <p>{s.desc}</p>
@@ -473,32 +594,32 @@ export default function Home() {
         {/* CONTACT */}
         <section className="section" id="contact">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, scale: 0.85, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="contact-wrapper">
               <span className="section-tag" style={{ justifyContent: "center", marginBottom: "8px" }}>Get In Touch</span>
               
-              <h2 style={{ fontSize: "clamp(24px, 3.5vw, 34px)", fontWeight: "800", marginBottom: "10px", color: "#ffffff" }}>
+              <h2 style={{ fontSize: "clamp(20px, 4vw, 32px)", fontWeight: "800", marginBottom: "8px", color: "#ffffff", textAlign: "center" }}>
                 Got a project in mind? <br /><span style={{ color: "#ccff00" }}>Let's build it together.</span>
               </h2>
 
               <div className="email-copy-box">
                 <span className="email-text">{userEmail}</span>
-                <button className="btn-main" onClick={copyToClipboard} style={{ padding: "5px 12px", fontSize: "12px" }}>
-                  {copied ? <Check size={14} /> : <Copy size={14} />}
+                <button className="btn-main" onClick={copyToClipboard} style={{ padding: "4px 10px", fontSize: "11px", flexShrink: 0 }}>
+                  {copied ? <Check size={12} /> : <Copy size={12} />}
                   <span>{copied ? "Copied!" : "Copy"}</span>
                 </button>
               </div>
 
-              <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
                 <a href="https://wa.me/6285732095945" target="_blank" rel="noreferrer" className="btn-main">
-                  <MessageCircle size={15} /> WhatsApp
+                  <MessageCircle size={14} /> WhatsApp
                 </a>
                 <a href={`mailto:${userEmail}`} className="btn-sub">
-                  <Mail size={15} /> Direct Email
+                  <Mail size={14} /> Direct Email
                 </a>
               </div>
             </div>
@@ -527,42 +648,49 @@ export default function Home() {
             style={{
               position: "fixed",
               inset: 0,
+              height: "100dvh",
               zIndex: 99999,
-              background: "rgba(8, 10, 15, 0.9)",
+              background: "rgba(8, 10, 15, 0.92)",
               backdropFilter: "blur(12px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "20px",
+              padding: "16px",
+              boxSizing: "border-box"
             }}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
               style={{
                 position: "relative",
-                maxWidth: "800px",
+                maxWidth: "760px",
                 width: "100%",
+                maxHeight: "85vh",
                 background: "#121722",
                 border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "18px",
+                borderRadius: "16px",
                 overflow: "hidden",
-                padding: "20px",
+                padding: "clamp(12px, 3vw, 20px)",
+                display: "flex",
+                flexDirection: "column",
+                boxSizing: "border-box"
               }}
             >
               <button
                 onClick={() => setSelectedImage(null)}
                 style={{
                   position: "absolute",
-                  top: "15px",
-                  right: "15px",
-                  background: "rgba(255, 255, 255, 0.1)",
+                  top: "12px",
+                  right: "12px",
+                  background: "rgba(255, 255, 255, 0.12)",
                   border: "none",
                   color: "#ffffff",
-                  width: "36px",
-                  height: "36px",
+                  width: "34px",
+                  height: "34px",
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
@@ -573,7 +701,7 @@ export default function Home() {
               >
                 <X size={18} />
               </button>
-              <div style={{ width: "100%", height: "380px", display: "flex", alignItems: "center", justifyContent: "center", background: "#080a0f", borderRadius: "10px", overflow: "hidden" }}>
+              <div style={{ width: "100%", height: "clamp(220px, 50vh, 420px)", display: "flex", alignItems: "center", justifyContent: "center", background: "#080a0f", borderRadius: "10px", overflow: "hidden" }}>
                 <img src={selectedImage} alt="Project Preview" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
               </div>
             </motion.div>
@@ -590,6 +718,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
             aria-label="Back to top"
           >
             <ArrowUp size={16} />

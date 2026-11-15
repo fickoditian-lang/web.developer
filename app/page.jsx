@@ -19,7 +19,17 @@ import {
 } from "lucide-react";
 
 const InstagramIcon = (props) => (
-  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg
+    viewBox="0 0 24 24"
+    width="18"
+    height="18"
+    stroke="currentColor"
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
@@ -38,17 +48,20 @@ const servicesList = [
   {
     icon: Layout,
     title: "Frontend & UI Development",
-    description: "Building fast, dynamic, and responsive web user interfaces with clean code architecture.",
+    description:
+      "Building fast, dynamic, and responsive web user interfaces with clean code architecture.",
   },
   {
     icon: Server,
     title: "Backend & API Integration",
-    description: "Designing solid server-side logic, data structures, and seamless API integrations.",
+    description:
+      "Designing solid server-side logic, data structures, and seamless API integrations.",
   },
   {
     icon: Zap,
     title: "Clean Code & Performance",
-    description: "Crafting well-structured, maintainable codebases optimized for high efficiency.",
+    description:
+      "Crafting well-structured, maintainable codebases optimized for high efficiency.",
   },
 ];
 
@@ -67,12 +80,15 @@ const projects = [
   },
 ];
 
+const FALLBACK_AVATAR = "/ficko.png";
+
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [brokenImages, setBrokenImages] = useState({});
   const userEmail = "fickoditian@gmail.com";
 
   useEffect(() => {
@@ -86,74 +102,162 @@ export default function Home() {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setSelectedImage(null);
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(userEmail);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(userEmail);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+
+  const handleImageError = (src) => {
+    setBrokenImages((prev) => ({ ...prev, [src]: true }));
+  };
+
+  const getSafeImage = (src) => {
+    if (!src || brokenImages[src]) return null;
+    return src;
   };
 
   return (
     <>
       <style jsx global>{`
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { background-color: #080a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; overflow-x: hidden; width: 100%; max-width: 100vw; text-align: left; }
-        a { color: inherit; text-decoration: none; }
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
+        html {
+          scroll-behavior: smooth;
+          overflow-x: clip;
+        }
+        body {
+          background-color: #080a0f;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          line-height: 1.6;
+          overflow-x: clip;
+          width: 100%;
+          max-width: 100vw;
+          text-align: left;
+        }
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
 
-        .container { max-width: 980px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 32px); width: 100%; box-sizing: border-box; }
+        .container {
+          max-width: 980px;
+          margin: 0 auto;
+          padding: 0 clamp(20px, 5vw, 32px);
+          width: 100%;
+          box-sizing: border-box;
+        }
 
         /* NAVBAR RAMPING & PAS */
-        .navbar { 
-          position: fixed; 
-          top: 0; 
-          left: 0; 
-          width: 100%; 
-          z-index: 102; 
-          background: rgba(8, 10, 15, 0.95); 
+        .navbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          z-index: 102;
+          background: rgba(8, 10, 15, 0.95);
           backdrop-filter: blur(10px);
-          border-bottom: 1px solid rgba(255,255,255,0.06); 
-          height: 56px; 
-          display: flex; 
-          align-items: center; 
-          justify-content: space-between; 
-          padding: 0 clamp(20px, 5vw, 32px); 
-          box-sizing: border-box; 
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          height: 56px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 clamp(20px, 5vw, 32px);
+          box-sizing: border-box;
         }
-        
-        .nav-profile-logo { width: 32px; height: 32px; border-radius: 50%; background: #121722; border: 1px solid rgba(255, 255, 255, 0.15); color: #ffffff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; overflow: hidden; flex-shrink: 0; }
-        .nav-profile-logo:hover { transform: scale(1.05); }
 
-        .nav-right { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-        .btn-talk { background: #ccff00; color: #080a0f; padding: 6px 16px; border-radius: 99px; font-weight: 700; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; transition: 0.2s; }
-        .btn-talk:hover { background: #b8e600; }
-        @media (max-width: 640px) { .btn-talk { display: none; } }
+        .nav-profile-logo {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #121722;
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          color: #ffffff;
+          font-size: 11px;
+          font-weight: 800;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s;
+          overflow: hidden;
+          flex-shrink: 0;
+        }
+        .nav-profile-logo:hover {
+          transform: scale(1.05);
+        }
+
+        .nav-right {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-left: auto;
+        }
+        .btn-talk {
+          background: #ccff00;
+          color: #080a0f;
+          padding: 6px 16px;
+          border-radius: 99px;
+          font-weight: 700;
+          font-size: 12px;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          transition: 0.2s;
+        }
+        .btn-talk:hover {
+          background: #b8e600;
+        }
+        @media (max-width: 640px) {
+          .btn-talk {
+            display: none;
+          }
+        }
 
         /* TOMBOL GARIS 3 (MENU) */
-        .menu-toggle-btn { 
-          background: #121722; 
-          border: 1px solid rgba(255,255,255,0.12); 
-          border-radius: 8px; 
-          width: 36px; 
-          height: 36px; 
-          display: flex; 
-          align-items: center; 
-          justify-content: center; 
-          color: #ffffff; 
-          cursor: pointer; 
-          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); 
-          flex-shrink: 0; 
+        .menu-toggle-btn {
+          background: #121722;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 8px;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          flex-shrink: 0;
         }
-        .menu-toggle-btn:hover { 
-          border-color: #ccff00; 
-          color: #ccff00; 
+        .menu-toggle-btn:hover {
+          border-color: #ccff00;
+          color: #ccff00;
           background: rgba(204, 255, 0, 0.08);
           transform: scale(1.05);
           box-shadow: 0 0 12px rgba(204, 255, 0, 0.2);
@@ -163,38 +267,44 @@ export default function Home() {
         }
 
         /* MENU DRAWER SETENGAH LAYAR */
-        .menu-overlay { 
-          position: fixed; 
-          top: 56px; 
-          left: 0; 
-          width: 100%; 
+        .menu-overlay {
+          position: fixed;
+          top: 56px;
+          left: 0;
+          width: 100%;
           height: auto;
-          z-index: 101; 
-          background: #080a0f; 
-          border-bottom: 1px solid rgba(255,255,255,0.1);
+          z-index: 101;
+          background: #080a0f;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 0 0 24px 24px;
-          padding: 20px clamp(20px, 5vw, 32px) 28px; 
+          padding: 20px clamp(20px, 5vw, 32px) 28px;
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
-          box-sizing: border-box; 
+          box-sizing: border-box;
         }
-        .menu-links { display: flex; flex-direction: column; gap: 14px; text-align: left; align-items: flex-start; }
-        
-        .menu-item { 
-          font-size: 17px; 
-          font-weight: 600; 
-          color: #ffffff; 
+        .menu-links {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+          text-align: left;
+          align-items: flex-start;
+        }
+
+        .menu-item {
+          font-size: 17px;
+          font-weight: 600;
+          color: #ffffff;
           display: inline-block;
           width: fit-content;
           padding: 6px 12px;
           border-radius: 8px;
-          transition: all 0.2s ease; 
+          transition: all 0.2s ease;
         }
-        .menu-item:hover { 
-          color: #ccff00; 
+        .menu-item:hover {
+          color: #ccff00;
           background: rgba(204, 255, 0, 0.08);
           transform: translateX(6px);
         }
-        
+
         .menu-drawer-cta {
           margin-top: 10px;
           background: #ccff00;
@@ -210,42 +320,141 @@ export default function Home() {
           width: fit-content;
           transition: background 0.2s;
         }
-        .menu-drawer-cta:hover { background: #b8e600; }
+        .menu-drawer-cta:hover {
+          background: #b8e600;
+        }
 
         /* HERO SECTION */
-        .hero { min-height: 65vh; display: flex; flex-direction: column; justify-content: center; padding-top: 75px; padding-bottom: 10px; text-align: left !important; }
-        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(24px, 4vw, 40px); align-items: center; width: 100%; text-align: left !important; }
-        @media (max-width: 800px) { 
-          .hero-grid { grid-template-columns: 1fr; display: flex; flex-direction: column-reverse; gap: 24px; text-align: left !important; align-items: flex-start !important; } 
-          .hero { padding-top: 65px; padding-bottom: 10px; min-height: auto; text-align: left !important; }
-          .hero-actions { justify-content: flex-start !important; }
+        .hero {
+          min-height: 65vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding-top: 75px;
+          padding-bottom: 10px;
+          text-align: left !important;
+        }
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: clamp(24px, 4vw, 40px);
+          align-items: center;
+          width: 100%;
+          text-align: left !important;
+        }
+        @media (max-width: 800px) {
+          .hero-grid {
+            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 24px;
+            text-align: left !important;
+            align-items: flex-start !important;
+          }
+          .hero {
+            padding-top: 65px;
+            padding-bottom: 10px;
+            min-height: auto;
+            text-align: left !important;
+          }
+          .hero-actions {
+            justify-content: flex-start !important;
+          }
         }
 
-        .hero-title { font-size: clamp(34px, 7vw, 56px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 12px; color: #ffffff; word-break: break-word; text-align: left !important; width: 100%; }
-        .hero-sub { font-size: clamp(14px, 2vw, 16px); color: #ffffff; margin-bottom: 22px; opacity: 0.9; line-height: 1.6; text-align: left !important; width: 100%; }
+        .hero-title {
+          font-size: clamp(34px, 7vw, 56px);
+          font-weight: 800;
+          letter-spacing: -1.5px;
+          line-height: 1.1;
+          margin-bottom: 12px;
+          color: #ffffff;
+          word-break: break-word;
+          text-align: left !important;
+          width: 100%;
+        }
+        .hero-sub {
+          font-size: clamp(14px, 2vw, 16px);
+          color: #ffffff;
+          margin-bottom: 22px;
+          opacity: 0.9;
+          line-height: 1.6;
+          text-align: left !important;
+          width: 100%;
+        }
 
-        .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: flex-start !important; text-align: left !important; width: 100%; }
-        .btn-main { background: #ccff00; color: #080a0f; padding: 11px 26px; border-radius: 99px; font-weight: 700; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-        .btn-main:hover { background: #b8e600; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(204,255,0,0.3); }
-        .btn-sub { border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); color: #ffffff; padding: 11px 26px; border-radius: 99px; font-weight: 600; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; white-space: nowrap; }
-        .btn-sub:hover { border-color: #ccff00; color: #ccff00; transform: translateY(-2px); }
+        .hero-actions {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          flex-wrap: wrap;
+          justify-content: flex-start !important;
+          text-align: left !important;
+          width: 100%;
+        }
+        .btn-main {
+          background: #ccff00;
+          color: #080a0f;
+          padding: 11px 26px;
+          border-radius: 99px;
+          font-weight: 700;
+          font-size: 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          border: none;
+          cursor: pointer;
+          transition: 0.2s;
+          white-space: nowrap;
+        }
+        .btn-main:hover {
+          background: #b8e600;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(204, 255, 0, 0.3);
+        }
+        .btn-sub {
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.02);
+          color: #ffffff;
+          padding: 11px 26px;
+          border-radius: 99px;
+          font-weight: 600;
+          font-size: 14px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          transition: 0.2s;
+          white-space: nowrap;
+        }
+        .btn-sub:hover {
+          border-color: #ccff00;
+          color: #ccff00;
+          transform: translateY(-2px);
+        }
 
         /* FOTO PROFIL UTAMA */
-        .profile-avatar-container { display: flex; justify-content: center; align-items: center; width: 100%; }
-        @media (min-width: 801px) {
-          .profile-avatar-container { justify-content: flex-end; }
+        .profile-avatar-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
         }
-        .profile-circle-wrapper { 
-          width: clamp(150px, 35vw, 210px); 
-          height: clamp(150px, 35vw, 210px); 
-          border-radius: 50%; 
-          background: #121722; 
-          border: 1px solid rgba(255, 255, 255, 0.1); 
-          display: flex; 
-          align-items: center; 
-          justify-content: center; 
-          overflow: hidden; 
-          position: relative; 
+        @media (min-width: 801px) {
+          .profile-avatar-container {
+            justify-content: flex-end;
+          }
+        }
+        .profile-circle-wrapper {
+          width: clamp(150px, 35vw, 210px);
+          height: clamp(150px, 35vw, 210px);
+          border-radius: 50%;
+          background: #121722;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          position: relative;
           flex-shrink: 0;
           transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -256,18 +465,81 @@ export default function Home() {
         }
 
         /* SECTIONS */
-        .section { padding: clamp(28px, 4vw, 45px) 0; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: left !important; overflow: hidden; width: 100%; }
-        .section-tag-large { color: #ffffff; font-size: clamp(26px, 4vw, 40px); font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; display: block; text-align: left !important; width: 100%; }
-        .section-tag { color: #ccff00; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; text-align: left !important; width: 100%; }
-        .section-title { font-size: clamp(22px, 3.5vw, 34px); font-weight: 800; letter-spacing: -0.8px; margin-bottom: 6px; color: #ffffff; text-align: left !important; width: 100%; }
-        .section-subtitle { color: #ffffff; font-size: clamp(13px, 1.5vw, 14px); margin-bottom: 24px; opacity: 0.9; text-align: left !important; width: 100%; }
+        .section {
+          padding: clamp(28px, 4vw, 45px) 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          text-align: left !important;
+          overflow: clip;
+          width: 100%;
+        }
+        .section-tag-large {
+          color: #ffffff;
+          font-size: clamp(26px, 4vw, 40px);
+          font-weight: 800;
+          letter-spacing: -1px;
+          margin-bottom: 14px;
+          display: block;
+          text-align: left !important;
+          width: 100%;
+        }
+        .section-tag {
+          color: #ccff00;
+          font-size: 11px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          text-align: left !important;
+          width: 100%;
+        }
+        .section-title {
+          font-size: clamp(22px, 3.5vw, 34px);
+          font-weight: 800;
+          letter-spacing: -0.8px;
+          margin-bottom: 6px;
+          color: #ffffff;
+          text-align: left !important;
+          width: 100%;
+        }
+        .section-subtitle {
+          color: #ffffff;
+          font-size: clamp(13px, 1.5vw, 14px);
+          margin-bottom: 24px;
+          opacity: 0.9;
+          text-align: left !important;
+          width: 100%;
+        }
 
         /* ABOUT */
-        .about-text-content { font-size: clamp(15px, 2.2vw, 19px); color: #ffffff; line-height: 1.7; max-width: 820px; font-weight: 400; opacity: 0.9; text-align: left !important; width: 100%; pointer-events: auto !important; position: relative; z-index: 2; }
-        .about-text-content span { color: #ccff00; font-weight: 600; }
+        .about-text-content {
+          font-size: clamp(15px, 2.2vw, 19px);
+          color: #ffffff;
+          line-height: 1.7;
+          max-width: 820px;
+          font-weight: 400;
+          opacity: 0.9;
+          text-align: left !important;
+          width: 100%;
+          pointer-events: auto !important;
+          position: relative;
+          z-index: 2;
+        }
+        .about-text-content span {
+          color: #ccff00;
+          font-weight: 600;
+        }
 
         /* SERVICES GRID */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 2.5vw, 24px); width: 100%; text-align: left !important; }
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: clamp(16px, 2.5vw, 24px);
+          width: 100%;
+          text-align: left !important;
+        }
         .service-card {
           background: rgba(255, 255, 255, 0.02);
           border: 1px solid rgba(255, 255, 255, 0.06);
@@ -294,63 +566,206 @@ export default function Home() {
           justify-content: center;
           color: #ccff00;
         }
-        .service-card h3 { font-size: 17px; font-weight: 700; color: #ffffff; margin: 0; }
-        .service-card p { font-size: 14px; color: #ffffff; opacity: 0.8; line-height: 1.6; margin: 0; }
+        .service-card h3 {
+          font-size: 17px;
+          font-weight: 700;
+          color: #ffffff;
+          margin: 0;
+        }
+        .service-card p {
+          font-size: 14px;
+          color: #ffffff;
+          opacity: 0.8;
+          line-height: 1.6;
+          margin: 0;
+        }
 
         /* PROJECTS GRID */
-        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 2.5vw, 24px); width: 100%; text-align: left !important; }
-        .project-card { 
-          background: rgba(255, 255, 255, 0.02); 
-          border: 1px solid rgba(255, 255, 255, 0.06); 
-          border-radius: 16px; 
-          overflow: hidden; 
-          transition: all 0.3s ease; 
-          text-align: left !important; 
-          display: flex; 
-          flex-direction: column; 
+        .project-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+          gap: clamp(16px, 2.5vw, 24px);
+          width: 100%;
+          text-align: left !important;
         }
-        .project-card:hover { 
-          border-color: rgba(204, 255, 0, 0.5); 
-          transform: translateY(-6px); 
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(204, 255, 0, 0.15); 
+        .project-card {
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 16px;
+          overflow: hidden;
+          transition: all 0.3s ease;
+          text-align: left !important;
+          display: flex;
+          flex-direction: column;
         }
-        .project-image-box { width: 100%; height: 180px; background: #121722; border-bottom: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-        .project-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .project-card:hover .project-image-box img { transform: scale(1.06); }
-        .project-content { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; gap: 10px; text-align: left !important; }
-        .project-card h3 { font-size: clamp(16px, 2vw, 18px); font-weight: 700; color: #ffffff; margin: 0; text-align: left !important; }
-        .project-view-btn { background: none; border: none; display: inline-flex; align-items: center; gap: 6px; color: #ccff00; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; text-align: left !important; transition: 0.2s; width: fit-content; }
-        .project-view-btn:hover { opacity: 0.8; transform: translateX(3px); }
+        .project-card:hover {
+          border-color: rgba(204, 255, 0, 0.5);
+          transform: translateY(-6px);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 15px rgba(204, 255, 0, 0.15);
+        }
+        .project-image-box {
+          width: 100%;
+          height: 180px;
+          background: #121722;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          position: relative;
+        }
+        .project-image-box img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+        .project-card:hover .project-image-box img {
+          transform: scale(1.06);
+        }
+        .project-content {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          justify-content: space-between;
+          gap: 10px;
+          text-align: left !important;
+        }
+        .project-card h3 {
+          font-size: clamp(16px, 2vw, 18px);
+          font-weight: 700;
+          color: #ffffff;
+          margin: 0;
+          text-align: left !important;
+        }
+        .project-view-btn {
+          background: none;
+          border: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          color: #ccff00;
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          padding: 0;
+          text-align: left !important;
+          transition: 0.2s;
+          width: fit-content;
+        }
+        .project-view-btn:hover {
+          opacity: 0.8;
+          transform: translateX(3px);
+        }
 
         /* CONTACT SECTION (STABIL & ANTI-GETAR) */
-        .contact-wrapper { 
-          background: linear-gradient(135deg, rgba(204, 255, 0, 0.04), rgba(255, 255, 255, 0.01)); 
-          border: 1px solid rgba(204, 255, 0, 0.2); 
-          border-radius: 20px; 
-          padding: clamp(30px, 5vw, 50px) clamp(16px, 4vw, 24px); 
-          text-align: center; 
-          width: 100%; 
-          box-sizing: border-box; 
+        .contact-wrapper {
+          background: linear-gradient(
+            135deg,
+            rgba(204, 255, 0, 0.04),
+            rgba(255, 255, 255, 0.01)
+          );
+          border: 1px solid rgba(204, 255, 0, 0.2);
+          border-radius: 20px;
+          padding: clamp(30px, 5vw, 50px) clamp(16px, 4vw, 24px);
+          text-align: center;
+          width: 100%;
+          box-sizing: border-box;
           backface-visibility: hidden;
           -webkit-font-smoothing: antialiased;
         }
-        .email-copy-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px 10px 6px 16px; border-radius: 99px; display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; margin-bottom: 24px; max-width: 100%; overflow: hidden; box-sizing: border-box; }
-        .email-text { font-size: clamp(12px, 1.8vw, 14px); font-weight: 600; color: #ffffff; word-break: break-all; }
+        .email-copy-box {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          padding: 6px 10px 6px 16px;
+          border-radius: 99px;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          margin-top: 16px;
+          margin-bottom: 24px;
+          max-width: 100%;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+        .email-text {
+          font-size: clamp(12px, 1.8vw, 14px);
+          font-weight: 600;
+          color: #ffffff;
+          word-break: break-all;
+        }
 
         /* BACK TO TOP */
-        .scroll-top-btn { position: fixed; bottom: 20px; right: 20px; z-index: 99; background: #ccff00; color: #080a0f; width: 38px; height: 38px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3); }
-        .scroll-top-btn:hover { transform: translateY(-2px); }
+        .scroll-top-btn {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          z-index: 99;
+          background: #ccff00;
+          color: #080a0f;
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          border: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: 0.2s;
+          box-shadow: 0 4px 15px rgba(204, 255, 0, 0.3);
+        }
+        .scroll-top-btn:hover {
+          transform: translateY(-2px);
+        }
 
         /* FOOTER */
-        .footer { padding: 32px 0; border-top: 1px solid rgba(255, 255, 255, 0.06); display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 14px; width: 100%; text-align: left !important; }
-        @media (max-width: 500px) {
-          .footer { flex-direction: column; justify-content: center; text-align: center; }
+        .footer {
+          padding: 32px 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          gap: 14px;
+          width: 100%;
+          text-align: left !important;
         }
-        
-        .social-icons { display: flex; gap: 10px; align-items: center; }
-        @media (max-width: 500px) { .social-icons { justify-content: center; } }
-        .social-icons a { width: 34px; height: 34px; border-radius: 50%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); display: flex; align-items: center; justify-content: center; color: #ffffff; transition: 0.2s; }
-        .social-icons a:hover { border-color: #ccff00; color: #ccff00; transform: scale(1.1); }
+        @media (max-width: 500px) {
+          .footer {
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+          }
+        }
+
+        .social-icons {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+        @media (max-width: 500px) {
+          .social-icons {
+            justify-content: center;
+          }
+        }
+        .social-icons a {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          transition: 0.2s;
+        }
+        .social-icons a:hover {
+          border-color: #ccff00;
+          color: #ccff00;
+          transform: scale(1.1);
+        }
       `}</style>
 
       {/* ANIMASI SPLASH SCREEN AWAL */}
@@ -372,7 +787,17 @@ export default function Home() {
               overflow: "hidden",
             }}
           >
-            <div style={{ display: "flex", gap: "16px", fontSize: "clamp(28px, 6vw, 64px)", fontWeight: "800", color: "#ffffff", padding: "0 20px", textAlign: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "16px",
+                fontSize: "clamp(28px, 6vw, 64px)",
+                fontWeight: "800",
+                color: "#ffffff",
+                padding: "0 20px",
+                textAlign: "center",
+              }}
+            >
               <motion.span
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -393,6 +818,7 @@ export default function Home() {
             </div>
 
             <button
+              type="button"
               onClick={() => setLoading(false)}
               style={{
                 position: "absolute",
@@ -417,16 +843,31 @@ export default function Home() {
       {/* NAVBAR */}
       {!loading && (
         <header className="navbar">
-          <a href="#home" className="nav-profile-logo" title="Ficko Ditian" onClick={() => setMenuOpen(false)}>
-            <img src="/ficko.png" alt="Ficko Ditian" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <a
+            href="#home"
+            className="nav-profile-logo"
+            title="Ficko Ditian"
+            onClick={() => setMenuOpen(false)}
+          >
+            {getSafeImage(FALLBACK_AVATAR) ? (
+              <img
+                src={FALLBACK_AVATAR}
+                alt="Ficko Ditian"
+                onError={() => handleImageError(FALLBACK_AVATAR)}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            ) : (
+              <span>FD</span>
+            )}
           </a>
 
           <div className="nav-right">
             <a href="#contact" className="btn-talk">
-              Let's Talk <ArrowUpRight size={12} />
+              Let&apos;s Talk <ArrowUpRight size={12} />
             </a>
 
             <button
+              type="button"
               className="menu-toggle-btn"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle Navigation Menu"
@@ -463,7 +904,7 @@ export default function Home() {
                 className="menu-drawer-cta"
                 onClick={() => setMenuOpen(false)}
               >
-                Let's Talk <ArrowUpRight size={14} />
+                Let&apos;s Talk <ArrowUpRight size={14} />
               </a>
             </div>
           </motion.div>
@@ -482,12 +923,11 @@ export default function Home() {
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                 style={{ textAlign: "left" }}
               >
-                <h1 className="hero-title">
-                  Ficko Ditian
-                </h1>
+                <h1 className="hero-title">Ficko Ditian</h1>
 
                 <p className="hero-sub">
-                  Web Developer focused on building modern front-end interfaces, solid backend solutions, and high-performance web applications.
+                  Web Developer focused on building modern front-end interfaces,
+                  solid backend solutions, and high-performance web applications.
                 </p>
 
                 <div className="hero-actions">
@@ -505,10 +945,25 @@ export default function Home() {
                 initial={{ opacity: 0, scale: 0.7 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: false, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.15,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
               >
                 <div className="profile-circle-wrapper">
-                  <img src="/ficko.png" alt="Ficko Ditian" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  {getSafeImage(FALLBACK_AVATAR) ? (
+                    <img
+                      src={FALLBACK_AVATAR}
+                      alt="Ficko Ditian"
+                      onError={() => handleImageError(FALLBACK_AVATAR)}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <span style={{ fontSize: "36px", fontWeight: 800, color: "#ccff00" }}>
+                      FD
+                    </span>
+                  )}
                 </div>
               </motion.div>
             </div>
@@ -526,7 +981,13 @@ export default function Home() {
           >
             <span className="section-tag-large">About Me</span>
             <p className="about-text-content">
-              I am a dedicated <span>Web Developer</span> passionate about crafting dynamic, modern web experiences. My development workflow centers around clean code architecture, intuitive user interfaces, fast performance, and seamless user engagement. Beyond crafting front-end interactions, I focus on integrating robust backend systems, optimizing server API structures, and delivering scalable, end-to-end web solutions that drive real value.
+              I am a dedicated <span>Web Developer</span> passionate about crafting
+              dynamic, modern web experiences. My development workflow centers
+              around clean code architecture, intuitive user interfaces, fast
+              performance, and seamless user engagement. Beyond crafting
+              front-end interactions, I focus on integrating robust backend
+              systems, optimizing server API structures, and delivering scalable,
+              end-to-end web solutions that drive real value.
             </p>
           </motion.div>
         </section>
@@ -545,29 +1006,49 @@ export default function Home() {
             <p className="section-subtitle">Recent web development projects.</p>
 
             <div className="project-grid">
-              {projects.map((item, idx) => (
-                <div key={idx} className="project-card">
-                  <div className="project-image-box">
-                    {item.image ? (
-                      <img src={item.image} alt={item.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", color: "#ffffff", opacity: 0.8 }}>
-                        <ImageIcon size={24} />
-                        <span>Project Preview</span>
-                      </div>
-                    )}
+              {projects.map((item, idx) => {
+                const safeImg = getSafeImage(item.image);
+                return (
+                  <div key={idx} className="project-card">
+                    <div className="project-image-box">
+                      {safeImg ? (
+                        <img
+                          src={safeImg}
+                          alt={item.title}
+                          onError={() => handleImageError(item.image)}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "6px",
+                            color: "#ffffff",
+                            opacity: 0.8,
+                          }}
+                        >
+                          <ImageIcon size={24} />
+                          <span>Project Preview</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="project-content">
+                      <h3>{item.title}</h3>
+                      <button
+                        type="button"
+                        className="project-view-btn"
+                        onClick={() =>
+                          setSelectedImage(safeImg || getSafeImage(FALLBACK_AVATAR))
+                        }
+                      >
+                        <Eye size={14} /> View
+                      </button>
+                    </div>
                   </div>
-                  <div className="project-content">
-                    <h3>{item.title}</h3>
-                    <button 
-                      className="project-view-btn" 
-                      onClick={() => setSelectedImage(item.image || "/ficko.png")}
-                    >
-                      <Eye size={14} /> View
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
         </section>
@@ -583,7 +1064,9 @@ export default function Home() {
           >
             <span className="section-tag">Services</span>
             <h2 className="section-title">What I build.</h2>
-            <p className="section-subtitle">Modern web engineering solutions tailored for your business.</p>
+            <p className="section-subtitle">
+              Modern web engineering solutions tailored for your business.
+            </p>
 
             <div className="services-grid">
               {servicesList.map((srv, idx) => {
@@ -612,22 +1095,55 @@ export default function Home() {
             style={{ width: "100%" }}
           >
             <div className="contact-wrapper">
-              <span className="section-tag" style={{ justifyContent: "center", marginBottom: "8px" }}>Get In Touch</span>
-              
-              <h2 style={{ fontSize: "clamp(20px, 4vw, 32px)", fontWeight: "800", marginBottom: "8px", color: "#ffffff", textAlign: "center" }}>
-                Got a project in mind? <br /><span style={{ color: "#ccff00" }}>Let's build it together.</span>
+              <span
+                className="section-tag"
+                style={{ justifyContent: "center", marginBottom: "8px" }}
+              >
+                Get In Touch
+              </span>
+
+              <h2
+                style={{
+                  fontSize: "clamp(20px, 4vw, 32px)",
+                  fontWeight: "800",
+                  marginBottom: "8px",
+                  color: "#ffffff",
+                  textAlign: "center",
+                }}
+              >
+                Got a project in mind? <br />
+                <span style={{ color: "#ccff00" }}>
+                  Let&apos;s build it together.
+                </span>
               </h2>
 
               <div className="email-copy-box">
                 <span className="email-text">{userEmail}</span>
-                <button className="btn-main" onClick={copyToClipboard} style={{ padding: "4px 10px", fontSize: "11px", flexShrink: 0 }}>
+                <button
+                  type="button"
+                  className="btn-main"
+                  onClick={copyToClipboard}
+                  style={{ padding: "4px 10px", fontSize: "11px", flexShrink: 0 }}
+                >
                   {copied ? <Check size={12} /> : <Copy size={12} />}
                   <span>{copied ? "Copied!" : "Copy"}</span>
                 </button>
               </div>
 
-              <div style={{ display: "flex", gap: "10px", justifyContent: "center", flexWrap: "wrap" }}>
-                <a href="https://wa.me/6285732095945" target="_blank" rel="noreferrer" className="btn-main">
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <a
+                  href="https://wa.me/6285732095945"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-main"
+                >
                   <MessageCircle size={14} /> WhatsApp
                 </a>
                 <a href={`mailto:${userEmail}`} className="btn-sub">
@@ -640,11 +1156,25 @@ export default function Home() {
 
         {/* FOOTER */}
         <footer className="footer">
-          <span style={{ color: "#ffffff", opacity: 0.7, fontSize: "13px", fontWeight: "500" }}>
+          <span
+            style={{
+              color: "#ffffff",
+              opacity: 0.7,
+              fontSize: "13px",
+              fontWeight: "500",
+            }}
+          >
             © 2026 Ficko Ditian. All rights reserved.
           </span>
           <div className="social-icons">
-            <a href="https://instagram.com/fickoditian" target="_blank" rel="noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+            <a
+              href="https://instagram.com/fickoditian"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+            >
+              <InstagramIcon />
+            </a>
           </div>
         </footer>
       </main>
@@ -668,7 +1198,7 @@ export default function Home() {
               alignItems: "center",
               justifyContent: "center",
               padding: "16px",
-              boxSizing: "border-box"
+              boxSizing: "border-box",
             }}
           >
             <motion.div
@@ -689,11 +1219,13 @@ export default function Home() {
                 padding: "clamp(12px, 3vw, 20px)",
                 display: "flex",
                 flexDirection: "column",
-                boxSizing: "border-box"
+                boxSizing: "border-box",
               }}
             >
               <button
+                type="button"
                 onClick={() => setSelectedImage(null)}
+                aria-label="Close Preview"
                 style={{
                   position: "absolute",
                   top: "12px",
@@ -713,8 +1245,27 @@ export default function Home() {
               >
                 <X size={18} />
               </button>
-              <div style={{ width: "100%", height: "clamp(220px, 50vh, 420px)", display: "flex", alignItems: "center", justifyContent: "center", background: "#080a0f", borderRadius: "10px", overflow: "hidden" }}>
-                <img src={selectedImage} alt="Project Preview" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+              <div
+                style={{
+                  width: "100%",
+                  height: "clamp(220px, 50vh, 420px)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background: "#080a0f",
+                  borderRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={selectedImage}
+                  alt="Project Preview"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
               </div>
             </motion.div>
           </motion.div>
@@ -725,6 +1276,7 @@ export default function Home() {
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
+            type="button"
             className="scroll-top-btn"
             onClick={scrollToTop}
             initial={{ opacity: 0, scale: 0.8 }}

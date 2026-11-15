@@ -55,7 +55,7 @@ const servicesList = [
 const projects = [
   {
     title: "Portfolio Website",
-    image: "/piko.png",
+    image: "/pikoae.png",
   },
   {
     title: "Business Dashboard",
@@ -63,7 +63,7 @@ const projects = [
   },
   {
     title: "Company Profile",
-    image: "/ditian.jpeg",
+    image: "/laptop.png",
   },
 ];
 
@@ -179,7 +179,6 @@ export default function Home() {
         }
         .menu-links { display: flex; flex-direction: column; gap: 14px; text-align: left; align-items: flex-start; }
         
-        /* MENU ITEM: LEBARNYA PAS SEUSAUR TEKS & ADA EFEK HOVER HIJAU */
         .menu-item { 
           font-size: 17px; 
           font-weight: 600; 
@@ -323,7 +322,7 @@ export default function Home() {
         .project-view-btn { background: none; border: none; display: inline-flex; align-items: center; gap: 6px; color: #ccff00; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; text-align: left !important; transition: 0.2s; width: fit-content; }
         .project-view-btn:hover { opacity: 0.8; transform: translateX(3px); }
 
-        /* CONTACT SECTION */
+        /* CONTACT SECTION (STABIL & ANTI-GETAR) */
         .contact-wrapper { 
           background: linear-gradient(135deg, rgba(204, 255, 0, 0.04), rgba(255, 255, 255, 0.01)); 
           border: 1px solid rgba(204, 255, 0, 0.2); 
@@ -332,11 +331,8 @@ export default function Home() {
           text-align: center; 
           width: 100%; 
           box-sizing: border-box; 
-          transition: all 0.3s ease; 
-        }
-        .contact-wrapper:hover {
-          border-color: rgba(204, 255, 0, 0.5);
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(204, 255, 0, 0.15);
+          backface-visibility: hidden;
+          -webkit-font-smoothing: antialiased;
         }
         .email-copy-box { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 6px 10px 6px 16px; border-radius: 99px; display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; margin-bottom: 24px; max-width: 100%; overflow: hidden; box-sizing: border-box; }
         .email-text { font-size: clamp(12px, 1.8vw, 14px); font-weight: 600; color: #ffffff; word-break: break-all; }
@@ -464,11 +460,11 @@ export default function Home() {
               ))}
               <a
                 href="#contact"
-                    className="menu-drawer-cta"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Let's Talk <ArrowUpRight size={14} />
-                  </a>
+                className="menu-drawer-cta"
+                onClick={() => setMenuOpen(false)}
+              >
+                Let's Talk <ArrowUpRight size={14} />
+              </a>
             </div>
           </motion.div>
         )}
@@ -606,7 +602,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        {/* CONTACT */}
+        {/* CONTACT (STABIL, BERSIH, TANPA GETAR) */}
         <section className="section" id="contact">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

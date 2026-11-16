@@ -16,6 +16,7 @@ import {
   Layout,
   Server,
   Zap,
+  FileText,
 } from "lucide-react";
 
 const InstagramIcon = (props) => (
@@ -80,6 +81,15 @@ const projects = [
   },
 ];
 
+// Pasang atau ganti link/file CV kamu di sini
+const cvData = {
+  name: "Ficko Ditian Dwi Purna",
+  role: "Pelajar Kelas 10 SMAN Kesamben · Web Developer Mandiri",
+  description:
+    "Klik link di bawah untuk membuka dan melihat dokumen CV asli.",
+  pdfUrl: "/Ficko_Ditian_Dwi_Purna_cv.pdf",
+};
+
 const FALLBACK_AVATAR = "/ficko.png";
 
 export default function Home() {
@@ -88,6 +98,7 @@ export default function Home() {
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [cvOpen, setCvOpen] = useState(false);
   const [brokenImages, setBrokenImages] = useState({});
   const userEmail = "fickoditian@gmail.com";
 
@@ -110,6 +121,7 @@ export default function Home() {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
         setSelectedImage(null);
+        setCvOpen(false);
         setMenuOpen(false);
       }
     };
@@ -423,6 +435,7 @@ export default function Home() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
+          cursor: pointer;
           transition: 0.2s;
           white-space: nowrap;
         }
@@ -696,6 +709,29 @@ export default function Home() {
           word-break: break-all;
         }
 
+        /* CV MODAL */
+        .cv-modal-card {
+          position: relative;
+          max-width: 520px;
+          width: 100%;
+          background: #121722;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 18px;
+          padding: clamp(20px, 4vw, 26px);
+          color: #ffffff;
+          box-sizing: border-box;
+        }
+        .cv-link-box {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          padding: 12px 14px;
+          margin-bottom: 18px;
+          font-size: 13px;
+          color: #ccff00;
+          word-break: break-all;
+        }
+
         /* BACK TO TOP */
         .scroll-top-btn {
           position: fixed;
@@ -937,6 +973,13 @@ export default function Home() {
                   <a href="#contact" className="btn-sub">
                     Contact Me <ArrowUpRight size={14} />
                   </a>
+                  <button
+                    type="button"
+                    onClick={() => setCvOpen(true)}
+                    className="btn-sub"
+                  >
+                    <FileText size={14} /> View CV
+                  </button>
                 </div>
               </motion.div>
 
@@ -960,7 +1003,13 @@ export default function Home() {
                       style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                   ) : (
-                    <span style={{ fontSize: "36px", fontWeight: 800, color: "#ccff00" }}>
+                    <span
+                      style={{
+                        fontSize: "36px",
+                        fontWeight: 800,
+                        color: "#ccff00",
+                      }}
+                    >
                       FD
                     </span>
                   )}
@@ -1016,7 +1065,11 @@ export default function Home() {
                           src={safeImg}
                           alt={item.title}
                           onError={() => handleImageError(item.image)}
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
                         />
                       ) : (
                         <div
@@ -1178,6 +1231,130 @@ export default function Home() {
           </div>
         </footer>
       </main>
+
+      {/* MODAL LINK CV */}
+      <AnimatePresence>
+        {cvOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setCvOpen(false)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              height: "100dvh",
+              zIndex: 99999,
+              background: "rgba(8, 10, 15, 0.92)",
+              backdropFilter: "blur(12px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px",
+              boxSizing: "border-box",
+            }}
+          >
+            <motion.div
+              className="cv-modal-card"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setCvOpen(false)}
+                aria-label="Close CV Modal"
+                style={{
+                  position: "absolute",
+                  top: "14px",
+                  right: "14px",
+                  background: "rgba(255, 255, 255, 0.12)",
+                  border: "none",
+                  color: "#ffffff",
+                  width: "34px",
+                  height: "34px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={18} />
+              </button>
+
+              <span className="section-tag" style={{ marginBottom: "4px" }}>
+                Curriculum Vitae
+              </span>
+              <h2 style={{ fontSize: "22px", fontWeight: 800 }}>
+                {cvData.name}
+              </h2>
+              <p
+                style={{
+                  fontSize: "13px",
+                  opacity: 0.85,
+                  marginTop: "4px",
+                  marginBottom: "14px",
+                }}
+              >
+                {cvData.description}
+              </p>
+
+              <div className="cv-link-box">
+                <span
+                  style={{
+                    display: "block",
+                    fontSize: "11px",
+                    textTransform: "uppercase",
+                    letterSpacing: "1px",
+                    opacity: 0.7,
+                    color: "#ffffff",
+                    marginBottom: "4px",
+                  }}
+                >
+                  Link CV
+                </span>
+                {cvData.pdfUrl ? (
+                  <a
+                    href={cvData.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ textDecoration: "underline" }}
+                  >
+                    {cvData.pdfUrl}
+                  </a>
+                ) : (
+                  <span style={{ opacity: 0.6, color: "#ffffff" }}>
+                    Belum ada link CV dipasang
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                {cvData.pdfUrl ? (
+                  <a
+                    href={cvData.pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-main"
+                  >
+                    <FileText size={14} /> Buka CV <ArrowUpRight size={14} />
+                  </a>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => setCvOpen(false)}
+                  className="btn-sub"
+                >
+                  Tutup
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* MODAL POPUP PREVIEW */}
       <AnimatePresence>
